@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/loader.css">
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link href="./css/aos.min.css" rel="stylesheet" />
+    <link rel="icon" href="./assets/images/icon.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <script src="node_modules\web3\dist\web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/App.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Admin Dashboard | ShubhChain</title>
+    <style>
+        /* Dashboard ko shuruat mein hide rakhein */
+        .main-content-area {
+            display: none;
+            /* !important hata dein */
+        }
+
+        /* Admin-only sections default hidden */
+        .admin-only {
+            display: none;
+            /* !important hata dein */
+        }
+
+        /* Jab panel show karna ho */
+        #exporter-list-panel {
+            margin-top: 30px;
+            margin-bottom: 50px;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .row {
+            margin-right: 0 !important;
+            margin-left: 0 !important;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="login-overlay">
+        <div class="vault-card" data-aos="zoom-in">
+            <div class="vault-header">
+                <i class="fa-solid fa-user-shield"></i>
+                <h3 class="vault-title" style="color:#fff; letter-spacing: 5px;">ADMIN LOGIN</h3>
+                <p class="text-secondary">Please enter the security passkey to unlock the dashboard.</p>
+            </div>
+
+            <div class="passkey-wrapper">
+                <i class="fa-solid fa-fingerprint icon-left"></i>
+                <input type="password" id="adminPass" class="passkey-input" placeholder="PASSKEY">
+                <i class="fa-solid fa-eye toggle-eye" id="togglePassword" onclick="togglePass()"></i>
+            </div>
+
+            <button class="btn-auth" onclick="checkLogin()">
+                AUTHENTICATE
+            </button>
+
+            <div id="error-msg" class="mt-4 p-3 border border-danger text-danger small"
+                style="display:none; background: rgba(255,0,0,0.05); border-radius: 10px;">
+                <i class="fa-solid fa-circle-exclamation me-2"></i> Access Denied: Invalid Passkey.
+            </div>
+        </div>
+    </div>
+    <div id="role-denied-overlay"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100vh; background: rgba(2, 12, 18, 0.95); backdrop-filter: blur(15px); z-index: 99999; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+
+    </div>
+
+    <div class="loader-wraper">
+        <div class="lds-roller">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg bg-light py-3 navbar-dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <i class="fa-solid fa-dragon logo-glow-red me-2"></i>
+                <span class="nav-shubh">Shubh</span><span class="nav-chain">Chain</span>
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link active-link" href="admin.html">ADMIN</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link public-nav" href="upload.html">UPLOAD</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link public-nav" href="delete.html">DELETE</a>
+                    </li>
+                </ul>
+                <div class="d-flex gap-2 mt-3 mt-lg-0">
+                    <button id="authButton" onclick="handleAuth()" class="btn nav-auth-btn login-cyan">
+                        CONNECT
+                    </button>
+
+                    <button id="logoutButton" onclick="adminLogout()" class="btn nav-auth-btn logout-grey">
+                        ADMIN LOGOUT
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mb-5 main-content-area" style="display:none;" id="adminDashboard">
+        <div class="text-center mt-5 mb-4" data-aos="fade-down">
+            <h2 class="cyber-heading" id="dynamic-title">
+                <i class="fa-solid fa-screwdriver-wrench glitch-icon me-2"></i>ADMIN PANEL
+            </h2>
+            <p class="cyber-subtext" id="dynamic-subtitle">Manage authorized exporters and monitor blockchain network
+                status.</p>
+        </div>
+
+        <div class="row content m-1">
+            <div data-aos="fade-right" class="cyber-card col-lg-12 d-flex flex-column my-3 p-4">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="icon-glow-box me-3">
+                        <i class="fa-solid fa-satellite-dish text-info"></i>
+                    </div>
+                    <h5 class="fw-bold text-light mb-0">NETWORK STATUS MONITOR</h5>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="admin-stat-box">
+                            <i class="fa-solid fa-id-card neon-text me-3"></i>
+                            <div>
+                                <small class="text-secondary d-block">Admin Address</small>
+                                <span id="userAddress" class="cyber-data text-info small">Not Connected</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="admin-stat-box">
+                            <i class="fa-solid fa-globe neon-text me-3"></i>
+                            <div>
+                                <small class="text-secondary d-block">Network</small>
+                                <span id="network" class="cyber-data text-info">None</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="admin-stat-box">
+                            <i class="fa-solid fa-coins neon-text me-3"></i>
+                            <div>
+                                <small class="text-secondary d-block">Balance</small>
+                                <span id="userBalance" class="cyber-data text-info">0.00 ETH</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-2 px-1 d-flex gap-4">
+                    <div id="stat-files-container">
+                        <span id="num-hashes" class="text-secondary small">
+                            <i class="fa-solid fa-file mx-2 text-warning"></i>
+                        </span>
+                    </div>
+
+                    <div id="stat-exporters-container">
+                        <span id="num-exporters" class="text-secondary small">
+                            <i class="fa-solid fa-building-columns mx-2 text-info"></i>0
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="admin-only mt-4" style="padding-left: 10px; padding-right: 10px;">
+            <div class="row g-3 align-items-stretch" style="margin-left: 0; margin-right: 0;">
+
+                <div class="col-lg-4 col-md-5" style="padding: 5px;">
+                    <div class="cyber-card h-100 d-flex flex-column justify-content-center align-items-center text-center"
+                        style="background: linear-gradient(145deg, rgba(2, 12, 18, 0.95), rgba(0, 245, 255, 0.05)); 
+                        border: 1px solid rgba(0, 245, 255, 0.2); 
+                        min-height: 380px; border-radius: 12px; padding: 30px;">
+
+                        <div class="icon-glow-box mb-3"
+                            style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; background: rgba(0, 245, 255, 0.1); border-radius: 50%; border: 1px solid rgba(0, 245, 255, 0.3);">
+                            <i class="fa-solid fa-shield-halved text-info fa-lg"></i>
+                        </div>
+
+                        <h6 class="text-secondary mb-2"
+                            style="letter-spacing: 2px; font-size: 0.65rem; font-weight: 800; opacity: 0.8;">
+                            TOTAL SECURED RECORD </h6>
+
+                        <h1 class="display-2 fw-bold text-info shadow-text mb-0" id="total-docs-count"
+                            style="text-shadow: 0 0 30px rgba(0, 245, 255, 0.6); font-family: 'Orbitron', sans-serif; font-size: 5rem;">
+                            2
+                        </h1>
+
+                        <p class="small text-muted mt-4" style="font-size: 0.6rem; line-height: 1.4; max-width: 200px;">
+                            Active cryptographic integrity verified across ShubhChain nodes.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-8 col-md-7" style="padding: 5px;">
+                    <div class="cyber-card h-100" style="background: rgba(13, 17, 23, 0.9); 
+                        border: 1px solid rgba(0, 245, 255, 0.1); 
+                        min-height: 380px; border-radius: 12px; padding: 25px;">
+
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="text-light fw-bold mb-0" style="font-size: 0.8rem; letter-spacing: 1px;">
+                                <i class="fa-solid fa-chart-line text-info me-2"></i> DOCUMENT ISSUANCE ACTIVITY
+                            </h5>
+                            <div class="badge bg-dark border border-info text-info p-2"
+                                style="font-family: monospace; font-size: 0.5rem; letter-spacing: 1px;">
+                                LIVE SYNC
+                            </div>
+                        </div>
+
+                        <div style="height: 260px; width: 100%; position: relative;">
+                            <canvas id="issuanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="owner-management-panel" style="display: none;">
+            <div data-aos="zoom-in" class="col-lg-12 py-4 data-upload my-3 mx-auto"
+                style="background: rgba(13, 17, 23, 0.7); border: 1px solid rgba(0, 255, 204, 0.1); border-radius: 20px;">
+                <h5 class="text-center text-info fw-bold mb-4">
+                    <i class="fa-solid fa-user-gear me-2"></i> AUTHORIZED EXPORTER CONFIGURATION
+                </h5>
+
+                <div class="row px-md-5">
+                    <div class="col-md-6 mb-3">
+                        <label class="small text-secondary mb-1 ms-2">WALLET ADDRESS</label>
+                        <input id="Exporter-address" type="text" class="form-control cyber-input" placeholder="0x..."
+                            required />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="small text-secondary mb-1 ms-2">INSTITUTION NAME</label>
+                        <input id="info" type="text" class="form-control cyber-input" placeholder="e.g. University Name"
+                            required />
+                    </div>
+                </div>
+
+                <div class="text-center my-2">
+                    <span id="note" class="text-danger small"></span>
+                    <img id="loader" class="d-none mx-auto mb-3" src="files/loader.svg" alt="loader" width="50">
+                </div>
+
+                <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
+                    <button onclick="addExporter()" class="btn exporter-button" id="ExporterBtn">
+                        <i class="fa-solid fa-plus-circle me-2"></i> Add Exporter
+                    </button>
+                    <button onclick="editExporter()" class="btn exporter-button" id="edit">
+                        <i class="fa-solid fa-pen-to-square me-2"></i> Edit
+                    </button>
+                    <button onclick="deleteExporter()" class="btn exporter-button" id="delete">
+                        <i class="fa-solid fa-user-slash me-2"></i> Remove
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="exporter-list-panel" class="admin-only mt-5 mb-5 px-2">
+            <div class="glass-panel p-4"
+                style="background: rgba(2, 12, 18, 0.4); border: 1px solid rgba(0, 245, 255, 0.1); border-radius: 20px;">
+                <div class="mb-4">
+                    <h5 class="text-info fw-bold mb-0" style="letter-spacing: 2px; font-size: 0.9rem;">
+                        <i class="fa-solid fa-shield-halved me-2"></i>AUTHORIZED EXPORTER
+                    </h5>
+                    <div
+                        style="height: 2px; width: 50px; background: #00f5ff; margin-top: 8px; box-shadow: 0 0 10px #00f5ff;">
+                    </div>
+                </div>
+
+                <div class="row text-secondary mb-3 px-3 d-none d-md-flex"
+                    style="font-size: 0.7rem; font-weight: 800; letter-spacing: 1px;">
+                    <div class="col-md-4">INSTITUTION</div>
+                    <div class="col-md-5">ADDRESS</div>
+                    <div class="col-md-3 text-end">ACTION</div>
+                </div>
+
+                <div id="exporter-list-body">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="exporter-history-panel" class="exporter-only container-fluid px-0 mt-5 pt-3" style="display: none;">
+        <div data-aos="fade-up" class="cyber-card p-4"
+            style="background: rgba(13, 17, 23, 0.7); border: 1px solid rgba(0, 255, 204, 0.1); border-radius: 20px;">
+
+            <div class="d-flex align-items-center mb-4 ps-1">
+                <div class="icon-glow-box me-3"
+                    style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fa-solid fa-database text-info"></i>
+                </div>
+                <h5 class="fw-bold text-light mb-0" style="letter-spacing: 1px;">UPLOADED DOCUMENTS</h5>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-dark table-hover align-middle mb-0 border-0"
+                    style="border-collapse: separate; border-spacing: 0 12px; background: transparent;">
+                    <thead class="border-0">
+                        <tr class="text-secondary small border-0" style="background: transparent;">
+                            <th class="ps-4 pb-3 border-0" style="background: transparent;">STUDENT NAME</th>
+                            <th class="pb-3 border-0 text-center" style="background: transparent;">UPLOAD DATE</th>
+                            <th class="pe-4 pb-3 border-0 text-end" style="background: transparent;">OPERATIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="exporter-history-body" class="border-0" style="background: transparent;">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+    <div class="container-fluid p-0 mt-5">
+        <footer class="footer-dark m-0 cyber-footer-main">
+            <div class="container py-5">
+                <div class="row">
+                    <div class="col-sm-6 col-md-3 item">
+                        <h3 class="cyber-title-glow cyan-text">Services</h3>
+                        <ul class="cyber-links-list">
+                            <li><a href="#">Ethereum</a></li>
+                            <li><a href="#">Blockchain Tech.</a></li>
+                            <li><a href="#">Smart Contracts</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-sm-6 col-md-3 item">
+                        <h3 class="cyber-title-glow pink-text">About us</h3>
+                        <ul class="cyber-links-list">
+                            <li><a href="#">Company</a></li>
+                            <li><a href="#">Team</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-6 item text">
+                        <h3 class="footer-logo-text">
+                            <i class="fa-solid fa-dragon pulse-neon-pink"></i>
+                            Shubh<span class="cyan-text">Chain</span>
+                        </h3>
+                        <p class="footer-description-text">
+                            ShubhChain provides a cryptographic shield against document manipulation. Once a hash is
+                            generated via SHA-3, it becomes part of a permanent chain.
+                        </p>
+                    </div>
+
+                    <div class="col item social mt-4 d-flex justify-content-center">
+                        <a href="#" class="cyber-social-btn"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#" class="cyber-social-btn"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="#" class="cyber-social-btn"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="cyber-social-btn"><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-divider-neon mt-4"></div>
+                <p class="cyber-copyright-text pt-4">
+                    SHUBHCHAIN © 2026 // SECURED_NODE_ACCESS // ENCRYPTED
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <i onclick="topFunction()" id="scroll-btn" class="fa-solid fa-angle-up"></i>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/aos.js"></script>
+    <script src="./js/script.js"></script>
+
+    <script>
+        // --- 1. INITIAL LOAD SETUP ---
+        document.addEventListener("DOMContentLoaded", function () {
+            AOS.init({ duration: 1000 });
+            // Agar pehle se login hai toh seedha blockchain check karo
+            if (sessionStorage.getItem("isAdminLoggedIn") === "true") {
+                document.getElementById("login-overlay").style.display = "none";
+                // 1 second wait taaki contract aur web3 ready ho jayein
+                setTimeout(syncBlockchainRole, 1000);
+            }
+        });
+
+        // --- 2. PASSKEY & BLOCKCHAIN LOGIN ---
+        async function checkLogin() {
+            var passwordInput = document.getElementById("adminPass");
+            var password = passwordInput.value;
+            var correctPass = "shubham123";
+            var correctPassTwo = "akansha123";
+
+            if (password === correctPass || password === correctPassTwo) {
+                sessionStorage.setItem("isAdminLoggedIn", "true");
+                document.getElementById("login-overlay").style.opacity = "0";
+                setTimeout(() => {
+                    document.getElementById("login-overlay").style.display = "none";
+                    syncBlockchainRole(); // 🚀 Passkey ke baad Blockchain check shuru
+                }, 500);
+            } else {
+                var errorMsg = document.getElementById("error-msg");
+                errorMsg.style.display = "block";
+                passwordInput.value = "";
+                passwordInput.focus();
+                setTimeout(() => { errorMsg.style.display = "none"; }, 3000);
+            }
+        }
+        async function syncBlockchainRole() {
+            if (!window.ethereum) return;
+            try {
+                const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+                if (accounts.length > 0) {
+                    const currentUser = accounts[0].toLowerCase();
+
+                    // ⏳ Contract load hone ka wait karein
+                    if (!window.contract || !window.contract.methods) {
+                        setTimeout(syncBlockchainRole, 1000);
+                        return;
+                    }
+
+                    const adminAddress = (await window.contract.methods.owner().call()).toLowerCase();
+                    const exporterData = await window.contract.methods.Exporters(currentUser).call();
+
+                    $(".loader-wraper").fadeOut("slow");
+
+                    // 👑 CASE A: OWNER (ADMIN COMMAND CENTER)
+                    if (currentUser === adminAddress) {
+                        console.log("Admin Verified!");
+
+                        // Dashboard aur Admin areas ko force show karein
+                        $("#adminDashboard").attr('style', 'display: block !important');
+                        $(".admin-only").attr('style', 'display: block !important');
+                        $("#role-denied-overlay").hide();
+                        $(".navbar").show();
+
+                        // 1. Title aur Subtitle Update
+                        $("#dynamic-title").html('<i class="fa-solid fa-screwdriver-wrench glitch-icon me-2"></i>ADMIN COMMAND CENTER');
+                        $("#dynamic-subtitle").text("System management and exporter authorization node active.");
+
+                        // 2. NAV LOCK: Owner ke liye sirf ADMIN link rakhein
+                        $(".nav-link").each(function () {
+                            let linkText = $(this).text().trim();
+                            if (linkText === "HOME" || linkText === "VERIFY" || linkText === "UPLOAD" || linkText === "DELETE" || linkText === "TEAM") {
+                                $(this).hide();
+                            } else if (linkText === "ADMIN") {
+                                $(this).show();
+                            }
+                        });
+
+                        // 3. UI Panels Visibility
+                        $("#stat-exporters-container").show();
+                        $("#owner-management-panel").attr('style', 'display: block !important');
+                        $("#exporter-list-panel").attr('style', 'display: block !important');
+                        $("#exporter-history-panel").hide();
+
+                        // 4. Authentication Check
+                        if (sessionStorage.getItem("isAdminLoggedIn") !== "true") {
+                            $("#login-overlay").attr('style', 'display: flex !important');
+                        } else {
+                            $("#login-overlay").hide();
+
+                            // 📊 Analytics & Stats Trigger (Naya Hissa)
+                            if (window.updateAdminAnalytics) {
+                                console.log("Initializing Analytics...");
+                                window.updateAdminAnalytics();
+                            }
+
+                            if (window.getCounters) await window.getCounters();
+                            if (window.updateDashboardStats) window.updateDashboardStats(currentUser, true);
+
+                            // 🚀 Exporters ki list blockchain se load karein
+                            if (window.loadExporterList) {
+                                console.log("Fetching Authorized Nodes...");
+                                window.loadExporterList();
+                            }
+                        }
+                    }
+
+                    // 🧪 CASE B: AUTHORIZED EXPORTER (EXPORTER TERMINAL)
+                    else if (exporterData.blockNumber != "0") {
+                        console.log("Exporter Verified!");
+                        $("#login-overlay").hide();
+                        $("#role-denied-overlay").hide();
+                        $("#adminDashboard").attr('style', 'display: block !important');
+                        $(".navbar").show();
+
+                        // 1. Title aur Subtitle Update
+                        $("#dynamic-title").html('<i class="fa-solid fa-user-gear glitch-icon me-2"></i>EXPORTER TERMINAL');
+                        $("#dynamic-subtitle").text("Monitor your personal blockchain uploads and secured records.");
+
+                        // 2. NAV LOCK: Exporter ke liye zaroori links dikhao
+                        $(".nav-link").each(function () {
+                            let linkText = $(this).text().trim();
+                            if (linkText === "HOME" || linkText === "VERIFY" || linkText === "TEAM") {
+                                $(this).hide();
+                            } else if (linkText === "UPLOAD" || linkText === "DELETE" || linkText === "ADMIN") {
+                                $(this).show();
+                            }
+                        });
+
+                        // 3. UI Panels Visibility
+                        $("#stat-exporters-container").hide();
+                        $("#owner-management-panel").hide();
+                        $("#exporter-list-panel").hide();
+                        $("#exporter-history-panel").attr('style', 'display: block !important');
+
+                        // 4. Data Loading
+                        if (window.loadExporterPrivateHistory) {
+                            await window.loadExporterPrivateHistory(currentUser);
+                        }
+                        if (window.updateDashboardStats) {
+                            window.updateDashboardStats(currentUser, false);
+                        }
+                    }
+
+                    // 🚫 CASE C: UNAUTHORIZED USER (ACCESS DENIED)
+                    else {
+                        console.log("Unauthorized attempt blocked for: " + currentUser);
+
+                        if (document.getElementById("denied-address")) {
+                            document.getElementById("denied-address").innerText = currentUser;
+                        }
+
+                        $("#role-denied-overlay").attr('style', 'display: flex !important');
+                        $("#adminDashboard").hide();
+                        $("#login-overlay").hide();
+                        $(".navbar").hide();
+
+                        setTimeout(() => {
+                            window.location.href = "index.html";
+                        }, 4000);
+                    }
+                }
+            } catch (e) {
+                console.error("Blockchain Sync Error:", e);
+            }
+        }
+        function adminLogout() {
+            sessionStorage.removeItem("isAdminLoggedIn");
+            sessionStorage.setItem("userChoice", "disconnected");
+            window.location.reload();
+            if (typeof disconnect === "function") disconnect();
+        }
+
+        // --- 3. UI EVENT LISTENERS ---
+        document.getElementById("adminPass").addEventListener("keypress", (e) => { if (e.key === "Enter") checkLogin(); });
+
+        document.getElementById("Exporter-address").onclick = () => {
+            $("#note").html(``);
+            $("#ExporterBtn").attr("disabled", false);
+            $("#edit").attr("disabled", false);
+            $("#delete").attr("disabled", false);
+        }
+
+        // 🔄 BUTTON & CONNECTION SYNC
+        async function syncButton() {
+            const btn = document.getElementById("authButton");
+            const userChoice = sessionStorage.getItem("userChoice");
+
+            if (window.ethereum) {
+                const accounts = await ethereum.request({ method: 'eth_accounts' });
+
+                if (userChoice === "disconnected" || accounts.length === 0) {
+                    btn.innerText = "CONNECT";
+                    btn.classList.add("login-cyan");
+                    btn.classList.remove("login-cyan-glow");
+                    if (document.getElementById("userAddress")) document.getElementById("userAddress").innerText = "Not Connected";
+                }
+                else if (accounts.length > 0) {
+                    btn.innerText = "DISCONNECT";
+                    btn.classList.add("login-cyan-glow");
+                    btn.classList.remove("login-cyan");
+                    sessionStorage.setItem("userChoice", "connected");
+                    // Account change hote hi role dobara check karo
+                    syncBlockchainRole();
+                }
+            }
+        }
+
+        async function handleAuth() {
+            const btn = document.getElementById("authButton");
+            if (btn.innerText.trim() === "CONNECT") {
+                try {
+                    await connect();
+                    sessionStorage.setItem("userChoice", "connected");
+                    syncButton();
+                } catch (error) { console.error("Auth failed", error); }
+            } else {
+                try {
+                    if (typeof disconnect === "function") await disconnect();
+                    sessionStorage.setItem("userChoice", "disconnected");
+                    syncButton();
+                    window.location.reload();
+                } catch (error) { console.error("Disconnect failed", error); }
+            }
+        }
+
+        window.addEventListener('load', syncButton);
+        if (window.ethereum) {
+            window.ethereum.on('accountsChanged', (acc) => {
+                if (acc.length === 0) sessionStorage.setItem("userChoice", "disconnected");
+                syncButton();
+            });
+        }
+    </script>
+</body>
+
+</html>

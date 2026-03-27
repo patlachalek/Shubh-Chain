@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login - Document Verification</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+  </head>
+  <body>
+    <div class="container vh-100 d-flex align-items-center justify-content-center">
+      <div class="col-12 col-sm-10 col-md-6 col-lg-4">
+        <div class="card shadow-sm">
+          <div class="card-body p-4">
+            <div class="text-center mb-3">
+              <img src="assets/images/logo.png" alt="Logo" style="max-width:120px;" onerror="this.style.display='none'">
+              <h4 class="mt-2">Sign in</h4>
+              <p class="text-muted small">Access your document verification dashboard</p>
+            </div>
+
+            <form id="loginForm" action="#" method="post" novalidate>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
+              </div>
+
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-group">
+                  <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                  <button class="btn btn-outline-secondary" type="button" id="togglePassword" aria-label="Toggle password visibility">Show</button>
+                </div>
+              </div>
+
+              <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                <label class="form-check-label" for="remember">Remember me</label>
+              </div>
+
+              <div class="d-grid mb-2">
+                <button type="submit" class="btn btn-primary">Sign in</button>
+              </div>
+
+              <div class="d-flex justify-content-between small">
+                <a href="register.html">Create account</a>
+                <a href="forgot-password.html">Forgot password?</a>
+              </div>
+            </form>
+          </div>
+        </div>
+        <p class="text-center text-muted small mt-3">&copy; <span id="year"></span> Document Verification</p>
+      </div>
+    </div>
+
+    <script>
+      // Set current year
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // Toggle password visibility
+      document.getElementById('togglePassword').addEventListener('click', function () {
+        var p = document.getElementById('password');
+        if (p.type === 'password') { p.type = 'text'; this.textContent = 'Hide'; }
+        else { p.type = 'password'; this.textContent = 'Show'; }
+      });
+
+      // Basic client-side validation feedback
+      document.getElementById('loginForm').addEventListener('submit', function (e) {
+        if (!this.checkValidity()) {
+          e.preventDefault();
+          e.stopPropagation();
+          this.classList.add('was-validated');
+        }
+      });
+    </script>
+  </body>
+</html>

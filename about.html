@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>ShubhChain | The Architects</title>
+    <link rel="stylesheet" href="./css/loader.css">
+    <link href="./css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <link href="./css/aos.min.css" rel="stylesheet" />
+    <link href="./css/main.css" rel="stylesheet" />
+    <link rel="icon" href="./assets/images/icon.png" />
+
+    <style>
+    
+      body {
+        background-color: #020408;
+        overflow-x: hidden;
+      }
+
+      /* 🌠 NEON BACKGROUND */
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: radial-gradient(circle at 50% 50%, rgba(0, 255, 204, 0.03) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(255, 0, 255, 0.03) 0%, transparent 40%);
+        z-index: -1;
+      }
+
+      .team-header { margin: 60px 0 50px; }
+
+      .cyber-heading {
+        font-family: 'Orbitron', sans-serif;
+        font-weight: 900;
+        font-size: 3rem;
+        letter-spacing: 6px;
+        color: #fff;
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        text-transform: uppercase;
+      }
+
+      /* 🚀 CLEAN PREMIUM CARDS */
+      .cyber-team-container {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        padding-bottom: 100px;
+        flex-wrap: wrap;
+      }
+
+      .cyber-vault-card {
+        width: 100%;
+        max-width: 400px;
+        background: rgba(13, 17, 23, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 50px 30px;
+        text-align: center;
+        transition: 0.4s ease;
+        position: relative;
+        backdrop-filter: blur(15px);
+      }
+
+      .card-shubham:hover {
+        border-color: #ff00ff;
+        box-shadow: 0 10px 40px rgba(255, 0, 255, 0.15);
+        transform: translateY(-10px);
+      }
+
+      .card-akansha:hover {
+        border-color: #00ffcc;
+        box-shadow: 0 10px 40px rgba(0, 255, 204, 0.15);
+        transform: translateY(-10px);
+      }
+
+      /* 👤 STATIC CLEAN IMAGE (No Scan Line) */
+      .img-frame {
+        width: 170px;
+        height: 170px;
+        margin: 0 auto 30px;
+        padding: 6px;
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.05);
+        transition: 0.3s;
+      }
+
+      .card-shubham .img-frame { border: 2px solid rgba(255, 0, 255, 0.4); }
+      .card-akansha .img-frame { border: 2px solid rgba(0, 255, 204, 0.4); }
+
+      .card-shubham:hover .img-frame { border-color: #ff00ff; box-shadow: 0 0 20px rgba(255, 0, 255, 0.3); }
+      .card-akansha:hover .img-frame { border-color: #00ffcc; box-shadow: 0 0 20px rgba(0, 255, 204, 0.3); }
+
+      .img-frame img {
+        width: 100%; height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+      }
+
+      .member-name {
+        font-family: 'Orbitron', sans-serif;
+        color: #fff;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+
+      .member-role {
+        font-size: 0.75rem;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        margin-bottom: 25px;
+        display: block;
+        font-weight: bold;
+      }
+
+      .role-shubham { color: #ff00ff; }
+      .role-akansha { color: #00ffcc; }
+
+      .member-bio {
+        color: #8b949e;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 30px;
+      }
+
+      .social-btns {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      .social-btns a {
+        width: 42px; height: 42px;
+        display: flex; align-items: center; justify-content: center;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        color: #8b949e;
+        transition: 0.3s;
+        text-decoration: none;
+      }
+
+      .card-shubham .social-btns a:hover { background: #ff00ff; color: #000; border-color: #ff00ff; box-shadow: 0 0 15px #ff00ff; }
+      .card-akansha .social-btns a:hover { background: #00ffcc; color: #000; border-color: #00ffcc; box-shadow: 0 0 15px #00ffcc; }
+    </style>
+  </head>
+
+  <body>
+    <div class="loader-wraper">
+      <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark cyber-nav-container">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="index.html">
+      <i class="fa-solid fa-dragon logo-glow-red me-2"></i>
+      <span class="nav-shubh">Shubh</span><span class="nav-chain">Chain</span>
+    </a>
+
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
+        <li class="nav-item">
+            <a class="nav-link" href="index.html">HOME</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="verify.html">VERIFY</a>
+        </li>
+        <li class="nav-item exporter-only" style="display: none;">
+            <a class="nav-link" href="upload.html">UPLOAD</a>
+        </li>
+        
+        <li class="nav-item exporter-only" style="display: none;">
+            <a class="nav-link" href="delete.html">DELETE</a>
+        </li>
+        <li class="nav-item admin-only" style="display: none;">
+            <a class="nav-link" href="admin.html">ADMIN</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link  active-link" href="about.html">TEAM</a>
+        </li>
+      </ul>
+      <div class="d-flex align-items-center ms-lg-auto">
+          <button onclick="connect()" id="leftAuthBtn" class="btn cyber-btn-outline-cyan btn-sm px-3 py-2">
+              ACCESS TERMINAL
+          </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+    <div class="container team-header text-center" data-aos="fade-down">
+      <h2 class="cyber-heading">CORE ARCHITECTS</h2>
+      <p class="text-secondary">Engineering the future of secure document verification.</p>
+    </div>
+
+    <div class="container cyber-team-container">
+      
+      <div class="cyber-vault-card card-shubham" data-aos="fade-right">
+        <div class="img-frame">
+          <img src="files/shubham.png" alt="Shubham">
+        </div>
+        <h1 class="member-name">Shubham Patil</h1>
+        <span class="member-role role-shubham">System Lead & IT Engineer</span>
+        <p class="member-bio">
+          "Expert in blockchain architecture and secure system design. Building ShubhChain to ensure document integrity."
+        </p>
+        <div class="social-btns">
+          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#"><i class="fa-brands fa-github"></i></a>
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+      </div>
+
+      <div class="cyber-vault-card card-akansha" data-aos="fade-left">
+        <div class="img-frame">
+          <img src="files/akansha.png" alt="Akansha">
+        </div>
+        <h1 class="member-name">Akansha Meshram</h1>
+        <span class="member-role role-akansha">Full-Stack Architect</span>
+        <p class="member-bio">
+          "Passionate about decentralized tech and UI/UX. Focused on making blockchain accessible and secure for everyone."
+        </p>
+        <div class="social-btns">
+          <a href="#"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#"><i class="fa-brands fa-github"></i></a>
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+      </div>
+
+    
+
+    <footer class="footer-dark m-0 cyber-footer-main">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-sm-6 col-md-3 item">
+                    <h3 class="cyber-title-glow cyan-text">Services</h3>
+                    <ul class="cyber-links-list">
+                        <li><a href="#">Ethereum</a></li>
+                        <li><a href="#">Blockchain Tech.</a></li>
+                        <li><a href="#">Smart Contracts</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-sm-6 col-md-3 item">
+                    <h3 class="cyber-title-glow pink-text">About us</h3>
+                    <ul class="cyber-links-list">
+                        <li><a href="#">Company</a></li>
+                        <li><a href="#">Team</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-6 item text">
+                    <h3 class="footer-logo-text">
+                        <i class="fa-solid fa-dragon pulse-neon-pink"></i>
+                        Shubh<span class="cyan-text">Chain</span>
+                    </h3>
+                    <p class="footer-description-text">
+                        Praesent sed lobortis mi. Suspendisse vel placerat ligula. Vivamus
+                        ac sem lacus. Ut vehicula rhoncus elementum. Etiam quis tristique
+                        lectus. Aliquam in arcu eget velit pulvinar dictum vel in justo.
+                    </p>
+                </div>
+
+                <div class="col item social mt-4 d-flex justify-content-center">
+                    <a href="#" class="cyber-social-btn"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" class="cyber-social-btn"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" class="cyber-social-btn"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="cyber-social-btn"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-divider-neon mt-4"></div>
+            <p class="cyber-copyright-text pt-4">
+                SHUBHCHAIN © 2026 // SECURED_NODE_ACCESS // ENCRYPTED
+            </p>
+        </div>
+    </footer>
+  </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/aos.js"></script>
+    <script>
+      AOS.init({ duration: 1000, once: true });
+      $(".loader-wraper").fadeOut("slow");
+    </script>
+  </body>
+</html>

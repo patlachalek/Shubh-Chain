@@ -1,0 +1,2359 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,500;1,700&family=Rubik+Glitch&family=Rubik+Moonrocks&family=Ubuntu&display=swap");
+
+:root {
+  --main-color: #000000;
+  --second-color: #000000;
+  --box-shadow: 0 0 5px rgb(33, 3, 3);
+  --border-color: 1px solid #c3c3c361;
+  --dark: #1f2022;
+  --light: rgb(157, 157, 157);
+  --white: rgba(255, 255, 255, 0.925);
+  --border-radius: 10px;
+  --inputs-background: #121212;
+  --boxes-color: #252024 !important;
+  --nav-background: rgba(10, 10, 16, 0.7);
+  --team-box-color: #151d20;
+}
+
+button {
+  transition: all 0.3s;
+}
+
+.tx-h5 {
+  font-size: xx-large;
+  border-bottom: 1px solid #dad3d33d;
+  padding-bottom: 15px;
+  text-shadow: 1px 1px 1px rgb(123, 123, 123),
+  2px 2px 1px rgb(57, 34, 34);
+}
+.fa-caret-down{
+  animation: bounce 1000ms alternate infinite;
+}
+.card {
+  height: 200px;
+  transition: all 0.3s;
+  width: 300px;
+  box-shadow: 0 0px 5px rgb(15, 4, 10);
+}
+.card:hover
+{
+  box-shadow: 0 0 10px rgb(18, 4, 4);
+  transform: scale(1.15, 1.15);
+  z-index: 1;
+}
+.card #student-document {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+#qrcode img,
+#qrcode canvas {
+  width: 20rem;
+  border: 4px solid #2be1ff;
+  margin-bottom: 3rem;
+  margin-top: 10px;
+}
+.download-icon {
+  transition: all 0.3s;
+  font-size: 2.5rem;
+  color: #fff;
+}
+#student-document {
+  margin-bottom: 1rem;
+}
+.download-link {
+  height: 40px;
+  width: 180px;
+  background-color: var(--main-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  border-radius: 40px;
+  margin-left: 10px;
+  margin-top: 15px;
+  font-size: 15px;
+  color: #fff;
+  transition: all 0.3s;
+}
+
+.download-link:hover {
+  transform: scale(1.05, 1.05);
+  color: #c2eb45;
+  box-shadow: 0 0 5px #ffffff;
+}
+.latest-tx{
+  overflow-x: hidden;
+}
+/*Floating Icons */
+.mail-us {
+  padding-top: 15px;
+  font-size: larger;
+  left: 30px;
+}
+.mail-us,
+#scroll-btn {
+  position: fixed;
+  background-color: var(--white);
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  border-radius: 50%;
+  bottom: 10px;
+  cursor: pointer;
+  display: block;
+  color: var(--second-color);
+  transition: all 0.4s ease-in-out;
+  z-index: 10000000;
+  box-shadow: 0 0 5px #c5ffef;
+}
+#scroll-btn {
+  animation: bounce 500ms alternate infinite;
+  padding-top: 12px;
+  font-size: x-large;
+  right: 30px;
+  transform: translateX(-50%);
+  display: none;
+}
+@keyframes bounce {
+  0% {
+   transform: translateY(10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+* {
+  text-decoration: none;
+  font-family: Roboto;
+  /* overflow-x: hidden; */
+}
+body {
+  position: relative;
+  background: linear-gradient(to right,var(--second-color), var(--main-color));
+  overflow-x: hidden;
+}
+.navbar-dark {
+  background: var(--nav-background) !important;
+}
+
+
+/* ------------------------------------------------------------ */
+
+/* Home Page */
+.home {
+  background-image: url(../assets/images/home5.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: calc(100vh - 71px);
+  position: relative;
+}
+.home .text-light {
+  z-index: 2;
+}
+.home video {
+  position: absolute;
+  z-index: 0;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* z-index: 9999999999; */
+}
+.home.container {
+  z-index: 100000000;
+}
+
+.logo {
+  background: var(--background-color);
+  background-clip: border-box;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.home h1 {
+  font-size: 3.4rem;
+}
+.home_text {
+  color: #cb3066;
+}
+.home .para {
+  font-size: 1.2rem;
+  line-height: 2;
+  color: var(--white);
+}
+.home-btn {
+  color: #004066;
+  background-color: var(--second-color);
+}
+section {
+  border-bottom: var(--border-color);
+}
+.contact img,
+.work img {
+  border-radius: 20px 120px 20px 120px;
+}
+.main-header-section {
+  border-left: 5px solid var(--main-color);
+  padding-left: 10px;
+  font-size: larger;
+}
+.information h4 {
+  text-transform: uppercase;
+}
+
+/* Upload */
+.right {
+  overflow: hidden;
+  margin: auto;
+}
+.right #student-document {
+  width: 20rem;
+  min-height: 15rem;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px 1px #00fbfb;
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.feat
+.data-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  background-color: var(--boxes-color);
+}
+
+input,
+#hashed-file {
+  margin: 10px 0px;
+  background: var(--inputs-background);
+  border: 1px solid var(--main-color);
+  outline: none;
+  text-transform: capitalize;
+  padding: 15px 15px;
+  border-radius: 10px;
+  width: 100%;
+  color: var(--white);
+}
+
+.main-button {
+  text-transform: capitalize;
+  box-shadow: var(--box-shadow);
+  border-radius: 35px;
+  height: 40px;
+  width: 90px;
+  color: var(--white);
+  background: var(--main-color);
+  font-weight: 500;
+}
+
+.upload-button {
+  width: 180px;
+  height: 50px;
+}
+.main-button:hover {
+  box-shadow: var(--box-shadow);
+  scale: 1.04;
+}
+
+.box {
+  position: relative;
+  border-radius: var(--border-radius);
+  align-items: flex-start;
+  font-weight: 600;
+  color: var(--white);
+  background: var(--boxes-color);
+  border-radius: 10px;
+  box-shadow: var(--box-shadow);
+}
+.wallet-status {
+  justify-content: end;
+  padding: 20px;
+}
+.wallet-status > i {
+  position: absolute;
+  font-size: 20px;
+  top: 5px;
+  color: var(--white);
+}
+.icon {
+  font-size: 15px;
+  animation-name: spin;
+  animation-duration: 6000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  right: 5px;
+}
+.wallet-status .info {
+  right: 15px;
+}
+.box > span {
+  /* border-bottom: var(--border-color); */
+  width: 100%;
+}
+
+#loader {
+  /* animation-name: spin; */
+  animation-duration: 1800ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  align-self: center;
+  width: 120px;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.btn-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+}
+.btn-container input {
+  margin: 10px 10px;
+  width: 150px;
+  height: 50px;
+}
+
+
+/* about */
+
+.men {
+  flex-wrap: wrap;
+  margin: 30px auto;
+}
+.people {
+  background: var(--team-box-color); /* fallback for old browsers */
+  display: flex;
+  flex-direction: column;
+  margin: 10px 20px;
+  border-radius: var(--border-radius);
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 500px;
+  padding: 15px;
+  width: 320px;
+  box-shadow: var(--box-shadow);
+}
+
+.img-container img {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+}
+.img-container img:hover {
+  border: 1px solid rgba(206, 15, 148, 0.459);
+}
+.people h1 {
+  color: var(--white);
+}
+.people h6 {
+  color: var(--light);
+}
+.about-me-text {
+  margin-top: 20px;
+  text-transform: capitalize;
+  color: var(--white);
+}
+.social {
+  margin-top: 35px;
+}
+.social a {
+  color: var(--white);
+  margin-left: 20px;
+  font-size: 25px;
+}
+
+/*Footer code*/
+.footer-dark {
+  padding: 50px 0;
+  color: var(--white);
+  border-top: var(--border-color);
+  width: 100%;
+}
+
+.footer-dark h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-weight: bold;
+  font-size: 16px;
+}
+.footer-dark p {
+  opacity: 0.5;
+}
+
+.footer-dark ul {
+  padding: 0;
+  list-style: none;
+  line-height: 1.6;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+.footer-dark ul a {
+  color: inherit;
+  text-decoration: none;
+  opacity: 0.6;
+}
+
+.footer-dark ul a:hover {
+  opacity: 0.8;
+}
+
+@media (max-width: 767px) {
+  .footer-dark .item:not(.social) {
+    text-align: center;
+    padding-bottom: 20px;
+  }
+}
+
+.footer-dark .item.text {
+  margin-bottom: 36px;
+}
+
+@media (max-width: 767px) {
+  .footer-dark .item.text {
+    margin-bottom: 0;
+  }
+}
+
+.footer-dark .item.text p {
+  opacity: 0.6;
+  margin-bottom: 0;
+}
+
+.footer-dark .item.social {
+  text-align: center;
+}
+
+@media (max-width: 991px) {
+  .footer-dark .item.social {
+    text-align: center;
+    margin-top: 20px;
+  }
+}
+
+.footer-dark .item.social > a {
+  font-size: 20px;
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  display: inline-block;
+  text-align: center;
+  border-radius: 50%;
+
+  margin: 0 8px;
+  color: rgb(255, 255, 255);
+  opacity: 0.75;
+}
+
+.footer-dark .item.social > a:hover {
+  opacity: 0.9;
+}
+
+.footer-dark .copyright {
+  text-align: center;
+  padding-top: 24px;
+  opacity: 0.3;
+  font-size: 13px;
+  margin-bottom: 0;
+}
+
+#upload_file_button{
+  background-color: royalblue;
+  cursor: pointer;
+}
+
+/* Drag & Drop Box Styling */
+.drop-zone {
+  max-width: 100%;
+  height: 180px;
+  padding: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 18px;
+  cursor: pointer;
+  color: #cccccc;
+  border: 2px dashed #4b4b6a; /* Dashed border */
+  border-radius: 10px;
+  background-color: #141422; /* Dark theme background */
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+/* Jab user file uske upar layega tab ka animation */
+.drop-zone--over {
+  border-style: solid;
+  border-color: #f39c12; /* Warning/Yellow color */
+  background-color: #1a1a2e;
+  transform: scale(1.02); /* Thoda sa bada hoga */
+}
+
+/* Asli input button ko chhupa diya */
+.drop-zone__input {
+  display: none;
+}
+/* Jab file drag karke upar layenge */
+.drop-zone--over {
+    border-color: #f39c12 !important; /* Orange border */
+    background-color: rgba(243, 156, 18, 0.1); /* Halka orange background */
+}
+@media (max-width: 767px) {
+  .small{
+    width: 100%;
+  }
+
+
+
+}
+
+/* =========================================
+   ✨ ULTRA PREMIUM HASH INPUT DESIGN
+   ========================================= */
+
+/* --- 1. Neon "OR" Separator --- */
+.cyber-separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+.cyber-separator::before,
+.cyber-separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px dashed rgba(23, 162, 184, 0.3); /* Dashed neon line */
+    margin: 0 20px;
+}
+.glass-or {
+    background: rgba(23, 162, 184, 0.1);
+    border: 1px solid rgba(23, 162, 184, 0.4);
+    color: #17a2b8;
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    box-shadow: 0 0 15px rgba(23, 162, 184, 0.2);
+}
+
+/* --- 2. Glassmorphism Main Card --- */
+.hash-verify-card {
+    background: linear-gradient(145deg, rgba(20, 25, 35, 0.8), rgba(10, 15, 20, 0.9));
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hash-verify-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px rgba(23, 162, 184, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* --- 3. Label & Icon Styling --- */
+.icon-glow-box {
+    width: 50px;
+    height: 50px;
+    background: rgba(23, 162, 184, 0.1);
+    border: 1px solid rgba(23, 162, 184, 0.4);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 15px rgba(23, 162, 184, 0.3);
+}
+.header-gradient {
+    background: linear-gradient(90deg, #ffffff, #17a2b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* --- 4. Cyber Input Group --- */
+.cyber-input-group {
+    display: flex;
+    background: #0d1117; /* Very deep dark */
+    border: 1px solid #30363d;
+    border-radius: 10px;
+    padding: 5px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+.cyber-input-group:focus-within {
+    border-color: #17a2b8;
+    box-shadow: 0 0 20px rgba(23, 162, 184, 0.4);
+}
+.cyber-addon {
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    background: transparent;
+    border: none;
+}
+.neon-text {
+    color: #17a2b8;
+    text-shadow: 0 0 8px rgba(23, 162, 184, 0.6);
+}
+
+/* --- 5. The Input Field --- */
+.cyber-input {
+    background: transparent !important;
+    border: none !important;
+    color: #00ffcc !important; /* Cool Hacker Mint color for typing */
+    font-family: 'Courier New', monospace;
+    letter-spacing: 1px;
+    box-shadow: none !important;
+    padding-left: 0;
+}
+.cyber-input::placeholder {
+    color: #4b5563 !important;
+    letter-spacing: 0px;
+}
+
+/* --- 6. The "Verify Now" Button --- */
+.cyber-btn {
+    background: #17a2b8;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0 25px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+.cyber-btn:hover {
+    background: #00ffcc; /* Bright mint on hover */
+    color: #000;
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.6);
+    transform: scale(1.02);
+}
+/* =========================================
+   ✨ ULTRA PREMIUM DRAG & DROP DESIGN
+   ========================================= */
+
+.cyber-drop-zone {
+    background: linear-gradient(145deg, rgba(13, 17, 23, 0.8), rgba(20, 25, 35, 0.9));
+    border: 2px dashed rgba(23, 162, 184, 0.4); /* Neon blue dashed border */
+    border-radius: 16px;
+    padding: 40px 20px;
+    position: relative;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+    cursor: pointer;
+}
+
+/* Hover & Dragging effect */
+.cyber-drop-zone:hover, .cyber-drop-zone.drop-zone--over {
+    border-color: #00ffcc; /* Changes to Mint Green */
+    background: linear-gradient(145deg, rgba(20, 25, 35, 0.9), rgba(13, 17, 23, 0.95));
+    box-shadow: 0 0 25px rgba(0, 255, 204, 0.2), inset 0 0 20px rgba(0, 255, 204, 0.1);
+    transform: translateY(-2px);
+}
+
+.glow-icon-wrapper {
+    width: 70px;
+    height: 70px;
+    background: rgba(23, 162, 184, 0.1);
+    border: 1px solid rgba(23, 162, 184, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 15px rgba(23, 162, 184, 0.3);
+    transition: all 0.3s ease;
+}
+
+.cyber-drop-zone:hover .glow-icon-wrapper {
+    background: rgba(0, 255, 204, 0.15);
+    border-color: #00ffcc;
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.5);
+}
+
+.cyber-cloud-icon {
+    color: #17a2b8;
+    transition: color 0.3s;
+}
+
+.cyber-drop-zone:hover .cyber-cloud-icon {
+    color: #00ffcc; /* Icon changes color on hover */
+}
+
+.cyber-browse-link {
+    color: #00ffcc;
+    text-decoration: underline;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.cyber-preview-img {
+    max-height: 200px;
+    max-width: 100%;
+    border-radius: 12px;
+    border: 2px solid rgba(23, 162, 184, 0.5);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+.cyber-remove-btn {
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    background: rgba(220, 53, 69, 0.1);
+}
+
+/* Hides the original file input but keeps it clickable over the whole box */
+.drop-zone__input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 10;
+}
+/* =========================================
+   ✨ CYBERPUNK PAGE HEADING DESIGN
+   ========================================= */
+
+/* Animated Gradient & Glowing Text */
+.cyber-heading {
+    font-weight: 900;
+    letter-spacing: 3px;
+    background: linear-gradient(90deg, #00ffcc, #17a2b8, #00ffcc, #00ffcc);
+    background-size: 200% auto;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: textShine 3s linear infinite;
+    text-shadow: 0 0 20px rgba(0, 255, 204, 0.3); /* Soft neon glow behind */
+    margin-bottom: 5px;
+}
+
+/* Text Shine Animation */
+@keyframes textShine {
+    to {
+        background-position: 200% center;
+    }
+}
+
+/* Icon with a slight 3D Cyber Glitch effect */
+.glitch-icon {
+    color: #00ffcc;
+    -webkit-text-fill-color: initial; /* Keeps icon solid color */
+    text-shadow: 
+        0 0 15px rgba(0, 255, 204, 0.8), 
+        2px 0 0 rgba(255, 0, 85, 0.6),  /* Pink glitch */
+        -2px 0 0 rgba(0, 255, 255, 0.6); /* Blue glitch */
+    animation: pulseGlow 2s infinite alternate;
+}
+
+@keyframes pulseGlow {
+    0% { transform: scale(1); text-shadow: 0 0 10px rgba(0, 255, 204, 0.5), 2px 0 0 rgba(255,0,85,0.4), -2px 0 0 rgba(0,255,255,0.4); }
+    100% { transform: scale(1.05); text-shadow: 0 0 20px rgba(0, 255, 204, 1), 3px 0 0 rgba(255,0,85,0.8), -3px 0 0 rgba(0,255,255,0.8); }
+}
+
+/* Hacker style Subtext */
+.cyber-subtext {
+    color: #8a9ab9;
+    font-family: 'Courier New', Courier, monospace; /* Typewriter/Hacker font */
+    letter-spacing: 1px;
+    font-size: 0.95rem;
+    max-width: 600px;
+    margin: 0 auto;
+    text-shadow: 0 0 5px rgba(138, 154, 185, 0.2);
+}
+
+/* =========================================
+   ✨ CYBERPUNK RESULT & SHARE BOX DESIGN
+   ========================================= */
+
+/* Main Result Card */
+.cyber-result-card {
+    background: linear-gradient(145deg, rgba(15, 20, 28, 0.9), rgba(10, 15, 20, 0.95));
+    border: 1px solid rgba(0, 255, 204, 0.3);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 255, 204, 0.1), inset 0 0 15px rgba(0, 255, 204, 0.05);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+}
+
+.cyber-details-section {
+    border-right: 1px solid rgba(0, 255, 204, 0.1);
+}
+@media (max-width: 991px) {
+    .cyber-details-section {
+        border-right: none;
+        border-bottom: 1px solid rgba(0, 255, 204, 0.1);
+    }
+}
+
+/* Status Text (Verified) */
+.cyber-success-text {
+    color: #00ffcc !important;
+    text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+/* Info Rows (Hash, Address, Date) */
+.cyber-info-row {
+    background: rgba(0, 0, 0, 0.4);
+    margin-bottom: 10px;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border-left: 3px solid #17a2b8;
+    display: flex;
+    align-items: center;
+    word-break: break-all;
+    transition: all 0.3s ease;
+}
+.cyber-info-row:hover {
+    background: rgba(23, 162, 184, 0.1);
+    border-left-color: #00ffcc;
+}
+.neon-icon {
+    color: #17a2b8;
+    margin-right: 12px;
+    font-size: 1.2rem;
+    min-width: 25px;
+    text-align: center;
+}
+.cyber-data {
+    color: #e9ecef;
+    font-family: 'Courier New', monospace; /* Hacker Font */
+    font-size: 0.9rem;
+}
+
+/* View Certificate Button */
+.cyber-btn-view {
+    background: transparent;
+    color: #00ffcc;
+    border: 1px solid #00ffcc;
+    border-radius: 8px;
+    padding: 10px 30px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+.cyber-btn-view:hover {
+    background: #00ffcc;
+    color: #000;
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.6);
+    transform: scale(1.05);
+}
+
+/* Image/QR Frame */
+.cyber-image-frame {
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 2px dashed rgba(23, 162, 184, 0.4);
+    border-radius: 12px;
+    position: relative;
+}
+.cyber-image-frame img {
+    border-radius: 8px;
+    max-height: 250px;
+    box-shadow: 0 0 15px rgba(23, 162, 184, 0.3);
+}
+
+/* Share Box */
+.cyber-share-box {
+    background: rgba(15, 20, 28, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 30px;
+    backdrop-filter: blur(5px);
+}
+
+/* Futuristic Share Buttons */
+.cyber-share-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 25px;
+    border-radius: 30px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    color: #fff;
+    border: 1px solid transparent;
+}
+.linkedin-btn { background: rgba(10, 102, 194, 0.2); border-color: #0a66c2; color: #0a66c2; }
+.linkedin-btn:hover { background: #0a66c2; color: #fff; box-shadow: 0 0 15px rgba(10, 102, 194, 0.6); transform: translateY(-3px); }
+
+.x-btn { background: rgba(255, 255, 255, 0.1); border-color: #fff; color: #fff; }
+.x-btn:hover { background: #fff; color: #000; box-shadow: 0 0 15px rgba(255, 255, 255, 0.6); transform: translateY(-3px); }
+
+.whatsapp-btn { background: rgba(37, 211, 102, 0.2); border-color: #25d366; color: #25d366; }
+.whatsapp-btn:hover { background: #25d366; color: #000; box-shadow: 0 0 15px rgba(37, 211, 102, 0.6); transform: translateY(-3px); }
+/* =========================================
+   ✨ CYBERPUNK "DOCUMENT HASHED" TEXT
+   ========================================= */
+
+.cyber-hashed-text {
+    font-family: 'Courier New', monospace;
+    color: #00ffcc !important; /* Hacker Mint Green */
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 
+        0 0 8px rgba(0, 255, 204, 0.8), 
+        0 0 20px rgba(0, 255, 204, 0.6), 
+        0 0 40px rgba(23, 162, 184, 0.8);
+    animation: cyberPulse 1.5s infinite alternate;
+    display: inline-block;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+/* Pulsing Neon Glow Animation */
+@keyframes cyberPulse {
+    0% { 
+        text-shadow: 0 0 5px rgba(0, 255, 204, 0.6), 0 0 15px rgba(23, 162, 184, 0.4); 
+        transform: scale(1);
+    }
+    100% { 
+        text-shadow: 0 0 12px rgba(0, 255, 204, 1), 0 0 25px rgba(0, 255, 204, 0.8), 0 0 50px rgba(23, 162, 184, 1); 
+        transform: scale(1.03); /* Halka sa bada hoga */
+    }
+}
+/* =========================================
+   ✨ GENERAL CYBER CARD (For Admin Box, etc.)
+   ========================================= */
+.cyber-card {
+    background: linear-gradient(145deg, rgba(15, 20, 28, 0.9), rgba(10, 15, 20, 0.95));
+    border: 1px solid rgba(23, 162, 184, 0.2); /* Subtle blue border */
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+.cyber-card:hover {
+     border-color: rgba(23, 162, 184, 0.4);
+     box-shadow: 0 15px 35px rgba(23, 162, 184, 0.1);
+}
+/* =========================================
+   ✨ CYBERPUNK RECENT UPLOADS DESIGN
+   ========================================= */
+
+/* --- 1. The Main Container Card (Reused & Enhanced) --- */
+.cyber-card {
+    background: linear-gradient(145deg, rgba(13, 17, 23, 0.95), rgba(20, 25, 35, 0.98));
+    border: 1px solid rgba(23, 162, 184, 0.2);
+    border-radius: 20px;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(23, 162, 184, 0.05);
+    backdrop-filter: blur(15px);
+    overflow: hidden;
+    position: relative;
+}
+/* Subtle animated glow overlay */
+.cyber-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(23, 162, 184, 0.1) 0%, transparent 70%);
+    animation: rotateGlow 15s linear infinite;
+    pointer-events: none;
+}
+@keyframes rotateGlow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+
+/* --- 2. Individual Document Cards --- */
+.cyber-doc-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(23, 162, 184, 0.3);
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+}
+/* Hover Effect: Lift up and intensely glow */
+.cyber-doc-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: #00ffcc;
+    box-shadow: 0 15px 30px rgba(0, 255, 204, 0.3), inset 0 0 15px rgba(0, 255, 204, 0.1);
+    z-index: 10;
+}
+/* Scanline effect on hover */
+.cyber-doc-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(transparent 50%, rgba(0, 255, 204, 0.05) 50%);
+    background-size: 100% 4px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+.cyber-doc-card:hover::after { opacity: 1; }
+
+
+/* --- 3. Card Header Elements --- */
+.doc-card-header h5 {
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(23, 162, 184, 0.5);
+}
+.tx-link {
+    color: #8a9ab9;
+    font-family: 'Courier New', monospace;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid transparent;
+}
+.tx-link:hover {
+    color: #00ffcc;
+    border-color: #00ffcc;
+    box-shadow: 0 0 10px rgba(0, 255, 204, 0.4);
+    background: rgba(0, 255, 204, 0.1);
+}
+
+
+/* --- 4. Compact Info Row (for IPFS) --- */
+.cyber-info-row.compact {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+    border-left-width: 2px;
+    background: rgba(0, 0, 0, 0.3);
+}
+.cyber-doc-card:hover .cyber-info-row.compact {
+    background: rgba(0, 255, 204, 0.05);
+    border-left-color: #00ffcc;
+}
+/* =========================================
+   ✨ EMAIL INPUT LOWERCASE FIX
+   ========================================= */
+#studentEmail {
+    text-transform: lowercase !important;
+}
+#studentEmail::placeholder {
+    text-transform: none !important; /* Placeholder normal rahega */
+}
+/* =========================================
+   🚨 CYBERPUNK DELETE PAGE (RED THEME)
+   ========================================= */
+
+/* Red Glowing Button */
+.cyber-btn-danger {
+    background: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0 25px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.cyber-btn-danger:hover {
+    background: #ff0055; /* Neon Pink/Red */
+    color: #fff;
+    box-shadow: 0 0 20px rgba(255, 0, 85, 0.6);
+    transform: scale(1.02);
+}
+
+/* Red Drag & Drop Zone */
+.cyber-drop-zone-danger {
+    border-color: rgba(220, 53, 69, 0.4) !important;
+}
+.cyber-drop-zone-danger:hover, .cyber-drop-zone-danger.drop-zone--over {
+    border-color: #ff0055 !important;
+    box-shadow: 0 0 25px rgba(255, 0, 85, 0.2), inset 0 0 20px rgba(255, 0, 85, 0.1) !important;
+}
+
+/* Red Glitch Heading */
+.cyber-heading-danger {
+    font-weight: 900;
+    letter-spacing: 3px;
+    background: linear-gradient(90deg, #ff0055, #dc3545, #ff0055);
+    background-size: 200% auto;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: textShine 3s linear infinite;
+    text-shadow: 0 0 20px rgba(255, 0, 85, 0.3);
+}
+/* =========================================
+   🕵️‍♂️ CYBERPUNK ADMIN LOGIN & DASHBOARD
+   ========================================= */
+
+/* Login Overlay Enhancement */
+#login-overlay {
+    background: radial-gradient(circle, rgba(15, 20, 30, 0.98), #0a0a0f) !important;
+}
+
+.login-card {
+    background: rgba(20, 25, 35, 0.8) !important;
+    border: 1px solid #ff0055 !important; /* Red Alert Border */
+    box-shadow: 0 0 30px rgba(255, 0, 85, 0.2), inset 0 0 15px rgba(255, 0, 85, 0.1) !important;
+    backdrop-filter: blur(15px) !important;
+}
+
+/* Custom Cyber Admin Inputs */
+.cyber-admin-input {
+    background: rgba(0, 0, 0, 0.5) !important;
+    border: 1px solid #30363d !important;
+    color: #00ffcc !important;
+    font-family: 'Courier New', monospace;
+    padding: 12px 15px 12px 45px !important;
+}
+
+.cyber-admin-input:focus {
+    border-color: #ff0055 !important;
+    box-shadow: 0 0 15px rgba(255, 0, 85, 0.3) !important;
+}
+
+/* Admin Stats Row */
+.admin-stat-box {
+    background: rgba(23, 162, 184, 0.05);
+    border-left: 3px solid #17a2b8;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    transition: all 0.3s;
+}
+
+.admin-stat-box:hover {
+    background: rgba(23, 162, 184, 0.1);
+    transform: translateX(5px);
+}
+/* =========================================
+   🟢 MATRIX GREEN SECURITY GATEWAY
+   ========================================= */
+
+#login-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(6, 10, 15, 0.98); /* Deep dark background */
+    backdrop-filter: blur(20px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+}
+
+/* Vault Card with Green Glow */
+.vault-card {
+    background: #0d1117;
+    border: 2px solid #00ffcc; /* Cyan/Green border */
+    border-radius: 24px;
+    padding: 50px 40px;
+    width: 100%;
+    max-width: 440px;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(0, 255, 204, 0.2), inset 0 0 20px rgba(0, 255, 204, 0.05);
+}
+
+.vault-header i {
+    color: #00ffcc;
+    font-size: 3.5rem;
+    filter: drop-shadow(0 0 15px rgba(0, 255, 204, 0.6));
+    margin-bottom: 25px;
+}
+
+.vault-title {
+    font-family: 'Courier New', monospace;
+    color: #fff;
+    font-weight: 900;
+    letter-spacing: 5px;
+    margin-bottom: 12px;
+}
+
+/* Passkey Input (Matrix Green) */
+.passkey-wrapper {
+    position: relative;
+    margin: 35px 0;
+}
+
+.passkey-wrapper i {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #00ffcc;
+}
+
+.passkey-input {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4) !important;
+    border: 1px solid #1a2c2e !important;
+    border-radius: 12px !important;
+    padding: 18px 15px 18px 50px !important;
+    color: #00ffcc !important;
+    font-family: 'Courier New', monospace;
+    font-size: 1.1rem;
+    letter-spacing: 4px; /* Slightly reduced for better readability */
+    transition: 0.3s ease;
+}
+
+.passkey-input:focus {
+    border-color: #00ffcc !important;
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.4) !important;
+    outline: none;
+}
+
+/* Professional Green Button */
+.btn-auth {
+    width: 100%;
+    padding: 16px;
+    background: transparent;
+    border: 2px solid #00ffcc;
+    color: #00ffcc;
+    font-weight: 800;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-radius: 12px;
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+.btn-auth:hover {
+    background: #00ffcc;
+    color: #000; /* Black text on green background looks premium */
+    box-shadow: 0 0 35px #00ffcc;
+    transform: scale(1.02);
+}
+/* =========================================
+   🚀 ADVANCED CYBERPUNK ADMIN UI
+   ========================================= */
+
+/* Admin Input Boxes (Exporter & Info) */
+.cyber-input {
+    background: rgba(0, 255, 204, 0.03) !important;
+    border: 1px solid rgba(0, 255, 204, 0.2) !important;
+    color: #00ffcc !important;
+    border-radius: 10px !important;
+    padding: 12px 15px !important;
+    font-family: 'Courier New', monospace;
+    transition: all 0.3s ease;
+}
+
+.cyber-input:focus {
+    background: rgba(0, 255, 204, 0.08) !important;
+    border-color: #00ffcc !important;
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.3) !important;
+    outline: none;
+}
+
+/* Admin Buttons (Add, Edit, Delete) */
+.exporter-button {
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 1px;
+    border-radius: 8px;
+    padding: 10px 25px;
+    transition: all 0.4s ease;
+}
+
+/* Add Button Specific */
+#ExporterBtn {
+    background: transparent;
+    border: 2px solid #00ffcc;
+    color: #00ffcc;
+}
+#ExporterBtn:hover {
+    background: #00ffcc;
+    color: #000;
+    box-shadow: 0 0 25px #00ffcc;
+}
+
+/* Edit Button Specific */
+#edit {
+    background: transparent;
+    border: 2px solid #ffc107;
+    color: #ffc107;
+}
+#edit:hover {
+    background: #ffc107;
+    color: #000;
+    box-shadow: 0 0 25px #ffc107;
+}
+
+/* Delete Button Specific (Danger Red) */
+#delete {
+    background: transparent;
+    border: 2px solid #ff4757;
+    color: #ff4757;
+}
+#delete:hover {
+    background: #ff4757;
+    color: #fff;
+    box-shadow: 0 0 25px #ff4757;
+}
+
+/* Info Box Stat Row Enhancement */
+.admin-stat-box {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(23, 162, 184, 0.1);
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+}
+
+.admin-stat-box:hover {
+    border-color: #00ffcc;
+    background: rgba(0, 255, 204, 0.05);
+}
+.cyber-footer-main {
+    background-color: #080a0c !important; /* Deep Dark but not pure black */
+    border-top: 2px solid rgba(0, 255, 204, 0.2);
+    padding-bottom: 20px;
+}
+
+.cyber-title-glow {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.cyan-text { color: #00ffcc !important; text-shadow: 0 0 8px rgba(0, 255, 204, 0.5); }
+.pink-text { color: #ff00ff !important; text-shadow: 0 0 8px rgba(255, 0, 255, 0.5); }
+
+.cyber-links-list { padding: 0; list-style: none; }
+.cyber-links-list li { margin-bottom: 12px; }
+.cyber-links-list a { 
+    color: #b0b0b0 !important; /* Light Grey taaki dikhe */
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 0.95rem;
+}
+.cyber-links-list a:hover { color: #ffffff !important; padding-left: 8px; border-left: 2px solid #00ffcc; }
+
+.footer-logo-text {
+    font-family: 'Orbitron', sans-serif;
+    color: #ffffff !important;
+    font-weight: 800;
+}
+
+.pulse-neon-pink { 
+    color: #ff00ff !important; 
+    margin-right: 10px; 
+    animation: neonPulse 2s infinite; 
+}
+
+@keyframes neonPulse {
+    0% { filter: drop-shadow(0 0 2px #ff00ff); }
+    50% { filter: drop-shadow(0 0 10px #ff00ff); transform: scale(1.1); }
+    100% { filter: drop-shadow(0 0 2px #ff00ff); }
+}
+
+.footer-description-text { 
+    color: #a0a0a0 !important; 
+    font-size: 0.9rem; 
+    line-height: 1.7; 
+    margin-top: 15px;
+}
+
+/* 💎 SOCIAL BUTTONS */
+.cyber-social-btn {
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(0, 255, 204, 0.3) !important;
+    border-radius: 10px;
+    margin: 0 10px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff !important;
+    transition: 0.4s;
+    text-decoration: none;
+}
+
+.cyber-social-btn:hover {
+    background: #00ffcc !important;
+    color: #000000 !important;
+    box-shadow: 0 0 20px #00ffcc;
+    transform: translateY(-5px);
+}
+
+.footer-divider-neon {
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, #ff00ff, #00ffcc, transparent);
+    opacity: 0.6;
+}
+
+.cyber-copyright-text {
+    color: #666666 !important; /* Visible Grey */
+    font-size: 0.8rem !important;
+    text-align: center;
+    letter-spacing: 4px;
+    font-family: 'Courier New', monospace;
+    text-transform: uppercase;
+}
+.cyber-nav-container {
+    background-color: #0a0b0d !important;
+    padding: 15px 0;
+    border-bottom: none;
+    position: relative;
+    z-index: 1000;
+}
+
+/* Brand styling */
+.nav-shubh { color: #D63353 !important; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 1.5rem; }
+.nav-chain { color: #FFFFFF !important; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 1.5rem; }
+.logo-glow-red { color: #D63353; font-size: 1.7rem; filter: drop-shadow(0 0 5px rgba(214, 51, 83, 0.4)); }
+
+/* 💎 NAV LINKS - Futuristic Style */
+.navbar-nav .nav-link {
+    color: #ffffff !important;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    margin: 0 8px;
+    font-weight: 600;
+    position: relative;
+    padding: 8px 15px !important;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+/* Hover effect with Cyan Teal Glow */
+.navbar-nav .nav-link:hover {
+    color: #00ffcc !important; 
+    background: rgba(0, 255, 204, 0.05); 
+    text-shadow: 0 0 10px #00ffcc;
+    border-radius: 4px;
+}
+
+/* 💠 Active Page Indicator (Cyan Teal Theme) */
+.active-link {
+    color: #00ffcc !important;
+    background: rgba(39, 40, 40, 0.6);
+    box-shadow: inset 0 0 10px rgba(0, 255, 204, 0.3);
+}
+
+.active-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #00ffcc;
+    box-shadow: 0 0 15px #00ffcc;
+}
+
+/* Auth Buttons */
+.nav-auth-btn {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    padding: 7px 18px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    transition: 0.4s;
+}
+
+.login-red {
+    background: transparent;
+    border: 1px solid #00ffcc;
+    color: #00ffcc;
+}
+
+.login-red:hover {
+    background: #00ffcc;
+    color: #000;
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
+}
+
+.logout-grey {
+    background: transparent;
+    border: 1px solid #444;
+    color: #888;
+}
+
+.logout-grey:hover { border-color: #fff; color: #fff; }
+
+/* 💠 Auth Buttons Styling (Admin Page) */
+.nav-auth-btn {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    padding: 7px 18px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    transition: 0.4s;
+    border-radius: 4px; /* Pill shape hata kar professional square-round look */
+}
+
+/* Login Button - Cyan Teal Glow */
+.login-cyan {
+    background: transparent !important;
+    border: 1px solid #00ffcc !important;
+    color: #00ffcc !important;
+}
+
+.login-cyan:hover {
+    background: #00ffcc !important;
+    color: #000 !important;
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
+    transform: translateY(-2px);
+}
+
+/* Admin Logout Button - Subtle Grey Outline */
+.logout-grey {
+    background: transparent !important;
+    border: 1px solid #444 !important;
+    color: #888 !important;
+}
+
+.logout-grey:hover {
+    border-color: #ffffff !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+/* =========================================
+   💠 EXTENDED CONTENT & IMAGE STYLING
+   ========================================= */
+
+.border-info {
+    border-color: #00f5ff !important;
+}
+
+h6.text-info {
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+}
+
+.img-fluid:hover {
+    filter: hue-rotate(180deg) brightness(1) !important;
+    transition: 0.5s ease;
+    cursor: crosshair;
+}
+
+/* Specific Badge highlight fix */
+.bg-dark.border-info {
+    background-color: rgba(0, 0, 0, 0.6) !important;
+    transition: 0.3s;
+}
+
+.bg-dark.border-info:hover {
+    background-color: var(--neon-cyan) !important;
+    color: #000 !important;
+    box-shadow: 0 0 15px var(--neon-cyan);
+}
+.comparison-table {
+    background: rgba(13, 17, 23, 0.8);
+    border-radius: 12px;
+    border: 1px solid rgba(0, 245, 255, 0.1);
+    overflow: hidden;
+}
+.table-header { background: rgba(0, 245, 255, 0.05); color: #00f5ff; font-family: 'Orbitron'; }
+.check-icon { color: #00f5ff; }
+.cross-icon { color: #D63353; }
+/* =========================================
+   📜 SMART CONTRACT HIGHLIGHT FIX
+   ========================================= */
+
+.smart-contract-section {
+    position: relative;
+    z-index: 5; /* Footer se upar rakhne ke liye */
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 30px;
+    margin-bottom: 50px; /* Footer se thoda gap */
+}
+
+.contract-box-wrapper {
+    background: rgba(0, 245, 255, 0.03);
+    padding: 15px;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+.smart-contract-section .text-info {
+    text-shadow: 0 0 10px rgba(0, 245, 255, 0.3);
+}
+/* =========================================
+   💎 ULTRA-PREMIUM DASHBOARD EXTENSION
+   ========================================= */
+
+:root {
+    --cyber-cyan: #00f5ff;
+    --cyber-red: #D63353;
+    --dark-surface: rgba(13, 17, 23, 0.9);
+}
+
+.premium-container {
+    background: var(--dark-surface);
+    border: 1px solid rgba(0, 245, 255, 0.1);
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Glass Table Styling */
+.cyber-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+.cyber-table thead th {
+    font-family: 'Orbitron';
+    color: var(--cyber-cyan);
+    font-size: 0.8rem;
+    padding: 15px;
+    text-transform: uppercase;
+    border-bottom: 2px solid rgba(0, 245, 255, 0.2);
+}
+
+.cyber-table tbody tr {
+    background: rgba(255, 255, 255, 0.02);
+    transition: 0.3s;
+}
+
+.cyber-table tbody tr:hover {
+    background: rgba(0, 245, 255, 0.05);
+    transform: scale(1.01);
+}
+
+.cyber-table td {
+    padding: 18px;
+    font-size: 0.9rem;
+    color: #a0a0a0;
+    border-top: 1px solid rgba(255,255,255,0.03);
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+/* HUD Stats Styling */
+.hud-stat-box {
+    border: 1px solid rgba(0, 245, 255, 0.1);
+    background: linear-gradient(145deg, rgba(0,0,0,0.4), rgba(0, 245, 255, 0.02));
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    position: relative;
+}
+
+.hud-stat-box i {
+    font-size: 2rem;
+    color: var(--cyber-cyan);
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 10px var(--cyber-cyan));
+}
+
+.hud-value {
+    display: block;
+    font-family: 'Orbitron';
+    font-weight: 900;
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+/* Section Divider */
+.cyber-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cyber-cyan), transparent);
+    margin: 50px 0;
+    opacity: 0.3;
+}
+/* =========================================
+   💎 PREMIUM HOVER & OUTLINE REMOVAL
+   ========================================= */
+
+/* Forcing all focus/outline to be hidden */
+.cyber-table, .cyber-table *, .premium-container, .img-wrapper, .hud-stat-box {
+    outline: none !important;
+    box-shadow: none !important;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Architecture Image Section Refinement */
+.img-wrapper {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 245, 255, 0.05);
+    transition: 0.5s ease;
+}
+
+.img-wrapper:hover {
+    border-color: var(--cyber-cyan);
+    box-shadow: 0 0 20px rgba(0, 245, 255, 0.1);
+}
+
+.img-wrapper img {
+    opacity: 0.5;
+    filter: grayscale(1) brightness(0.7);
+    transition: 0.5s ease;
+}
+
+.img-wrapper:hover img {
+    opacity: 0.8;
+    filter: grayscale(0) brightness(0.9);
+    transform: scale(1.02);
+}
+
+/* Smooth Table Row Hover without White Lines */
+.cyber-table tbody tr {
+    background: rgba(255, 255, 255, 0.01);
+    transition: 0.3s ease-in-out;
+    cursor: default;
+}
+
+.cyber-table tbody tr:hover {
+    background: rgba(0, 245, 255, 0.04) !important;
+    box-shadow: inset 4px 0 0 var(--cyber-cyan); /* Left side indicator instead of outline */
+}
+.login-cyan {
+    background: var(--neon-cyan);
+    color: #000;
+}
+
+.login-cyan-glow {
+    background: transparent;
+    border: 1px solid var(--neon-cyan);
+    color: var(--neon-cyan);
+    box-shadow: 0 0 10px var(--neon-cyan);
+}
+/* DISCONNECT Button - Glowing Cyan Style */
+.login-cyan-glow {
+    background: transparent !important;
+    color: #00ffcc !important; /* Neon Cyan Text */
+    border: 1px solid #00ffcc !important; /* Glowing Border */
+    padding: 8px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    /* Neon Glow Effect */
+    box-shadow: 0 0 10px rgba(0, 245, 255, 0.3), inset 0 0 5px rgba(0, 245, 255, 0.2);
+}
+
+.login-cyan-glow:hover {
+    background: #00ffcc !important;
+    color: #000 !important;
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
+    transform: translateY(-2px);
+}
+
+/* ADMIN LOGOUT Button - Grey Style (Existing) */
+/* ADMIN LOGOUT Button - Base Style */
+.logout-grey {
+    background: transparent !important;
+    color: #dcf310 !important;
+    border: 1px solid #dcf310 !important;
+    padding: 8px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: all 0.3s ease; /* Smooth transition for hover effect */
+    text-transform: uppercase;
+    /* Subtle initial glow */
+    box-shadow: 0 0 5px rgba(220, 243, 16, 0.2);
+}
+
+/* 🚀 Adding the Hover Effect */
+.logout-grey:hover {
+    background: #dcf310 !important; /* Slight background tint */
+    color: #000 !important; /* Text becomes white on hover */
+    box-shadow: 0 0 15px rgba(220, 243, 16, 0.5); /* Stronger glow on hover */
+    border-color: #dcf310 !important; /* Border also turns white for contrast */
+    cursor: pointer;
+}
+/* Student Label ke special effect ko normal baaki rows jaisa banayein */
+#display-student-name + .cyber-data,
+.cyber-info-row span.text-secondary {
+    all: unset !important; /* Kisi bhi special style ko remove karo */
+    font-family: var(--cyber-font) !important;
+    font-size: 0.9rem !important;
+    color: #8a9ab9 !important; /* Ye hai aapka background rows ka gray color */
+    margin-right: 10px !important;
+    text-transform: none !important; /* Capital letters hatane ke liye */
+}
+
+/* 🚀 Student ke Name ko force neon style dein taaki data highlighted rahe */
+#display-student-name {
+    all: unset !important;
+    font-family: var(--cyber-font) !important;
+    font-size: 1rem !important;
+    color: #00f5ff !important; /* Neon Blue */
+    text-shadow: 0 0 5px rgba(0, 245, 255, 0.7);
+    font-weight: bold !important;
+    
+    /* 🚀 YE LINE FIX KAREGI: Har word ka pehla letter Capital hoga */
+    text-transform: capitalize !important; 
+}
+#verified-student-name {
+    display: inline-block !important;
+    white-space: nowrap !important; /* Naam ko ek line mein rakho */
+    width: auto !important;         /* Width ki limit hata do */
+    overflow: visible !important;   /* Kuch bhi chhupao mat */
+}
+/* Middle Popup Custom Design */
+.cyber-popup-border {
+    border: 2px solid #ff0055 !important;
+    box-shadow: 0 0 30px rgba(255, 0, 85, 0.4) !important;
+    border-radius: 15px !important;
+}
+
+.swal2-html-container {
+    font-family: 'Orbitron', sans-serif !important;
+}
+/* ⚡ Cyberpunk Cyan Popup for Upload Page */
+.cyber-popup-border-cyan {
+    border: 2px solid #00f5ff !important;
+    box-shadow: 0 0 25px rgba(0, 245, 255, 0.4) !important;
+    border-radius: 15px !important;
+}
+
+.swal2-title {
+    font-family: 'Orbitron', sans-serif !important; /* Futuristic font */
+    letter-spacing: 1px;
+}
+/* 🚀 NAVIGATION AUTH BUTTON (RIGHT SIDE) */
+.cyber-btn-outline-cyan {
+    border: 1px solid #00f5ff;
+    color: #00f5ff;
+    background: transparent;
+    font-family: 'Orbitron', sans-serif; /* Futuristic font */
+    letter-spacing: 1px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+}
+
+.cyber-btn-outline-cyan:hover {
+    background: rgba(7, 244, 43, 0.871);
+    box-shadow: 0 0 15px rgba(7, 244, 43, 0.871), inset 0 0 5px rgba(0, 245, 255, 0.2);
+    color: #ffffff;
+    transform: translateY(-1px);
+    border: none;
+    
+}
+
+/* 🧪 ROLE-BASED DISPLAY CLASSES */
+/* JavaScript handle karne se pehle inhe hidden rakhte hain */
+.exporter-only, .admin-only {
+    display: none !important; 
+}
+
+/* Responsive adjustment for Mobile */
+@media (max-width: 991px) {
+    .ms-lg-auto {
+        margin-top: 15px;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+    #leftAuthBtn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Success State for Dashboard Button */
+.cyber-btn-outline-red {
+    border: 1px solid #ff0055;
+    color: #ff0055;
+    background: transparent;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.cyber-btn-outline-red:hover {
+    background: rgba(255, 0, 85, 0.1);
+    box-shadow: 0 0 15px rgba(255, 0, 85, 0.5);
+    color: #fff;
+}
+
+/* Futuristic Cyber Table UI */
+.shubh-terminal-table {
+    border-collapse: separate;
+    border-spacing: 0 8px; /* Rows ke beech gap */
+    background: transparent !important;
+}
+
+.shubh-terminal-table thead th {
+    background: rgba(0, 245, 255, 0.05);
+    border: none;
+    text-transform: uppercase;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 2px;
+    font-size: 0.75rem;
+    padding: 15px;
+    color: #00f5ff !important;
+    border-bottom: 2px solid #00f5ff22 !important;
+}
+
+.shubh-terminal-table tbody tr {
+    background: rgba(13, 17, 23, 0.7) !important;
+    box-shadow: 0 0 10px rgba(0, 245, 255, 0.05);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid rgba(0, 245, 255, 0.1) !important;
+}
+
+/* Hover Effect: Glowing Row */
+.shubh-terminal-table tbody tr:hover {
+    transform: scale(1.01) translateX(5px);
+    background: rgba(0, 245, 255, 0.1) !important;
+    box-shadow: 0 0 20px rgba(0, 245, 255, 0.2);
+    border-left: 4px solid #00f5ff !important;
+}
+
+.shubh-terminal-table td {
+    padding: 20px 15px !important;
+    color: #cbd5e0 !important;
+    border: none !important;
+    font-family: 'Exo 2', sans-serif;
+}
+
+/* Cyber Action Buttons */
+.btn-cyber-outline {
+    border: 1px solid;
+    background: transparent;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: 0.3s;
+    padding: 5px 12px;
+}
+
+.btn-cyan { border-color: #00f5ff; color: #00f5ff; }
+.btn-cyan:hover { background: #00f5ff; color: #000; box-shadow: 0 0 15px #00f5ff; }
+
+.btn-yellow { border-color: #ffcc00; color: #ffcc00; }
+.btn-yellow:hover { background: #ffcc00; color: #000; box-shadow: 0 0 15px #ffcc00; }
+
+.btn-red { border-color: #ff0055; color: #ff0055; }
+.btn-red:hover { background: #ff0055; color: #fff; box-shadow: 0 0 15px #ff0055; }
+
+.cyber-heading {
+    color: #00f5ff;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    text-shadow: 0 0 20px rgba(0, 245, 255, 0.5), 2px 2px #ff0055;
+    animation: glitch 2s infinite;
+}
+
+@keyframes glitch {
+    0% { transform: skew(0deg); }
+    20% { transform: skew(1deg); }
+    40% { transform: skew(-1deg); }
+    100% { transform: skew(0deg); }
+}
+
+/* Table Layout Fixes */
+.shubh-terminal-table thead th {
+    background: rgba(0, 245, 255, 0.05);
+    border-bottom: 2px solid #00f5ff22 !important;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.75rem;
+    padding: 20px;
+}
+
+/* Row Hover Effect */
+.cyber-row-fade {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    transition: 0.3s ease;
+}
+
+.cyber-row-fade:hover {
+    background: rgba(0, 245, 255, 0.04) !important;
+    box-shadow: inset 4px 0 0 #00f5ff;
+}
+
+/* User Icon Styling */
+.user-hex-icon {
+    width: 35px;
+    height: 35px;
+    background: rgba(0, 245, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+
+/* Cyber Buttons */
+.btn-cyber-sm {
+    font-size: 0.7rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    padding: 6px 15px;
+    border-radius: 4px;
+    transition: 0.3s;
+}
+
+/* Receipt Hologram Effects */
+.hologram-container {
+    background: rgba(0, 245, 255, 0.03);
+    border: 1px solid rgba(0, 245, 255, 0.2);
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.data-block label {
+    color: #00f5ff;
+    font-size: 0.65rem;
+    letter-spacing: 1.5px;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.secured-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border: 1px solid #00f5ff;
+    color: #00f5ff;
+    font-size: 0.6rem;
+    font-weight: bold;
+}
+/* Table Body Styling for Cyberpunk Look */
+.shubh-terminal-table tbody tr {
+    background: rgba(0, 245, 255, 0.02) !important; /* Bahut halka cyan tint */
+    border: 1px solid rgba(0, 245, 255, 0.1) !important;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px); /* Glass effect */
+    margin-bottom: 10px;
+}
+
+/* Hover effect: Glowing neon border */
+.shubh-terminal-table tbody tr:hover {
+    background: rgba(0, 245, 255, 0.05) !important;
+    border-color: #00f5ff !important;
+    box-shadow: 0 0 15px rgba(0, 245, 255, 0.2), inset 0 0 10px rgba(0, 245, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Student Icon Container */
+.user-hex-icon {
+    background: linear-gradient(135deg, rgba(0, 245, 255, 0.2), rgba(255, 0, 85, 0.1)) !important;
+    border: 1px solid #00f5ff55;
+    box-shadow: 0 0 10px rgba(0, 245, 255, 0.3);
+}
+/* 🌌 Sabhi purane backgrounds ko force-remove karein */
+.shubh-terminal-table, 
+.shubh-terminal-table tbody, 
+.shubh-terminal-table tr, 
+.shubh-terminal-table td {
+    background: transparent !important; /* Solid grey ko hatao */
+    border: none !important;
+}
+
+/* 💠 Naya Cyber-Glass Look jo page se match karega */
+.cyber-glass-row {
+    background: rgba(0, 245, 255, 0.03) !important; /* Halka sa cyan glass tint */
+    border-bottom: 1px solid rgba(0, 245, 255, 0.1) !important; /* Neon line indicator */
+    transition: all 0.3s ease-in-out;
+}
+
+/* Hover par row chamkegi (Neon Pulse) */
+.cyber-glass-row:hover {
+    background: rgba(0, 245, 255, 0.08) !important;
+    box-shadow: inset 0 0 20px rgba(0, 245, 255, 0.1) !important;
+    transform: translateX(8px); /* Subtle slide effect */
+}
+
+/* 💎 Neon User Icon with Glow */
+.user-hex-icon {
+    background: rgba(0, 245, 255, 0.1) !important;
+    border: 1px solid #00f5ff !important;
+    box-shadow: 0 0 10px rgba(0, 245, 255, 0.4) !important;
+    color: #00f5ff !important;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+
+/* Table Text Alignment */
+.cyber-text-glow {
+    color: #fff !important;
+    text-shadow: 0 0 5px rgba(0, 245, 255, 0.5);
+    font-weight: 600;
+}
+/* 🌌 Cyber Receipt Modal Styling */
+.cyber-modal-main {
+    border: 1px solid #00f5ff44 !important;
+    box-shadow: 0 0 30px rgba(0, 245, 255, 0.2) !important;
+    border-radius: 0 !important; /* Sharp Edges for Cyber Look */
+}
+
+.receipt-glitch-header {
+    color: #00f5ff;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 4px;
+    font-size: 1.2rem;
+    text-shadow: 2px 2px #ff005533;
+}
+
+.cyber-receipt-container {
+    padding: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.receipt-section { margin-bottom: 20px; }
+
+.receipt-section label {
+    color: #00f5ff;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.receipt-value {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #fff;
+}
+
+.receipt-value-box {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 10px;
+    border-left: 3px solid #00f5ff;
+    font-family: monospace;
+}
+
+.small-hash { color: #a0aec0; word-break: break-all; }
+
+.verification-seal {
+    border: 1px solid #00f5ff;
+    padding: 4px 12px;
+    color: #00f5ff;
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+.pulse-dot {
+    height: 6px; width: 6px;
+    background-color: #00f5ff;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+    animation: pulse-cyan 1.5s infinite;
+}
+
+@keyframes pulse-cyan {
+    0% { box-shadow: 0 0 0 0 rgba(0, 245, 255, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(0, 245, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 245, 255, 0); }
+}
+
+.shubh-node-row {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    margin-bottom: 10px;
+    transition: 0.3s all ease-in-out;
+}
+.shubh-node-row:hover {
+    background: rgba(0, 245, 255, 0.05);
+    border-color: rgba(0, 245, 255, 0.2);
+    transform: translateX(5px);
+}
+.action-btn-large {
+    padding: 8px 15px;
+    font-size: 1rem;
+    border-radius: 8px;
+    margin-left: 8px;
+    border: none;
+    transition: 0.3s;
+}
+.btn-edit-neon { background: rgba(255, 193, 7, 0.1); color: #ffc107; }
+.btn-edit-neon:hover { background: #ffc107; color: #000; box-shadow: 0 0 15px #ffc107; }
+
+.btn-revoke-neon { background: rgba(255, 0, 85, 0.1); color: #ff0055; }
+.btn-revoke-neon:hover { background: #ff0055; color: #fff; box-shadow: 0 0 15px #ff0055; }
+
+.pulse-red {
+    animation: pulse-red-glow 2s infinite;
+}
+@keyframes pulse-red-glow {
+    0% { filter: drop-shadow(0 0 5px #ff0055); }
+    50% { filter: drop-shadow(0 0 25px #ff0055); }
+    100% { filter: drop-shadow(0 0 5px #ff0055); }
+}
+.cyber-btn-outline-red {
+    border: 1px solid #ff0055;
+    color: #ff0055;
+    background: transparent;
+    padding: 10px 25px;
+    transition: 0.3s;
+}
+.cyber-btn-outline-red:hover {
+    background: #ff0055;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(255, 0, 85, 0.4);
+}
+#adminDashboard, 
+#exporter-history-panel {
+    width: 100% !important;
+    max-width: 1200px !important; /* Standardized width for all sections */
+    margin: 0 auto !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+.shubh-terminal-table {
+    border-collapse: separate !important;
+    border-spacing: 0 12px !important; /* Rows ke beech professional gap */
+    width: 100% !important;
+}
+
+#exporter-history-body tr {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid rgba(0, 245, 255, 0.1) !important;
+    transition: all 0.3s ease-in-out;
+}
+
+#exporter-history-body td {
+    border: none !important; /* Default table borders hatao */
+    padding: 20px 15px !important;
+}
+.cyber-card, .glass-panel, .vault-card {
+    background: rgba(13, 17, 23, 0.8) !important;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(0, 245, 255, 0.15) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* 🚀 1. Background Animation Hatao */
+.cyber-card::before, 
+.home video, 
+.home::after {
+    display: none !important;
+    animation: none !important;
+}
+
+/* 🚀 2. Rows ke ajeeb colors hatakar Clean Glass look dena */
+.shubh-terminal-table tbody tr {
+    background: rgba(255, 255, 255, 0.03) !important; /* Ekdam halka transparent white */
+    border: 1px solid rgba(0, 245, 255, 0.1) !important;
+    box-shadow: none !important;
+}
+
+/* 🚀 3. Table cells ka background clean karna */
+.shubh-terminal-table td {
+    background: transparent !important; /* Patches hatane ke liye */
+    border: none !important;
+}
+
+/* Hover par subtle glow */
+.shubh-terminal-table tbody tr:hover {
+    background: rgba(0, 245, 255, 0.05) !important;
+    border-color: rgba(0, 245, 255, 0.3) !important;
+}
+
+/* 🚀 Admin Address jaisa background color */
+.shubh-terminal-row {
+    background: rgba(255, 255, 255, 0.03) !important; /* Ye wahi subtle dark grey hai */
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    transition: all 0.3s ease;
+}
+
+/* Patches hatane ke liye cells ko transparent karein */
+.shubh-terminal-row td {
+    background: transparent !important;
+}
+
+/* Hover par admin card jaisa subtle glow */
+.shubh-terminal-row:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(0, 245, 255, 0.2) !important;
+    transform: translateY(-2px);
+}
+
+/* Bootstrap default hover background override */
+.table-hover tbody tr:hover td {
+    background-color: transparent !important;
+    color: inherit !important;
+}
+
+.cyber-tab-btn {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #8a9ab9;
+    font-weight: bold;
+    font-family: 'Monospace', sans-serif;
+    letter-spacing: 1px;
+    transition: all 0.4s ease;
+}
+
+.active-tab-cyan {
+    background: rgba(0, 245, 255, 0.1) !important;
+    border: 1px solid #00f5ff !important;
+    color: #00f5ff !important;
+    box-shadow: 0 0 15px rgba(0, 245, 255, 0.3);
+}
+
+.active-tab-pink {
+    background: rgba(255, 0, 85, 0.1) !important;
+    border: 1px solid #ff0055 !important;
+    color: #ff0055 !important;
+    box-shadow: 0 0 15px rgba(255, 0, 85, 0.3);
+}
+
+.small-check {
+    font-size: 0.7rem;
+    vertical-align: middle;
+}

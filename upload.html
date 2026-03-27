@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/loader.css" />
+    <link href="./css/bootstrap.min.css" rel="stylesheet" />
+    <script src="node_modules\web3\dist\web3.min.js"></script>
+    <script src="js/App.js"></script>
+    <script src="js/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link href="./css/aos.min.css" rel="stylesheet" />
+    <link rel="icon" href="./assets/images/icon.png" />
+    <title>Upload Document | ShubhChain</title>
+
+</head>
+
+<body>
+    <div class="loader-wraper">
+        <div class="lds-roller">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark cyber-nav-container">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <i class="fa-solid fa-dragon logo-glow-red me-2"></i>
+                <span class="nav-shubh">Shubh</span><span class="nav-chain">Chain</span>
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin.html">ADMIN</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active-link" href="upload.html">UPLOAD</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="delete.html">DELETE</a>
+                    </li>
+
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+    <div class="container mb-5">
+
+        <div class="text-center mt-5 mb-4" data-aos="fade-down">
+            <h2 class="cyber-heading">
+                <i class="fa-solid fa-cloud-arrow-up glitch-icon me-2"></i>UPLOAD DOCUMENT
+            </h2>
+            <p class="cyber-subtext">Securely store student certificates on the blockchain. Immutable and tamper-proof.
+            </p>
+        </div>
+
+        <div class="alert alert-danger d-none mt-2">
+            Please download MetaMask at
+            <a target="_blank" href="https://metamask.io/download">Metamask Site</a>
+        </div>
+
+        <div class="row content m-1">
+            <div data-aos="fade-right" class="cyber-card col-lg-12 d-flex flex-column my-3 p-4">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="icon-glow-box me-3" style="width: 40px; height: 40px;">
+                        <i class="fa-brands fa-connectdevelop text-info fs-4"></i>
+                    </div>
+                    <h5 class="fw-bold text-light mb-0">ADMIN DASHBOARD</h5>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="admin-stat-box">
+                            <i class="fa-solid fa-id-card neon-text me-3"></i>
+                            <div>
+                                <small class="text-secondary d-block">Admin Address</small>
+                                <span id="userAddress" class="cyber-data text-info small">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="admin-stat-box">
+                            <i class="fa-solid fa-globe neon-text me-3"></i>
+                            <div>
+                                <small class="text-secondary d-block">Network</small>
+                                <span id="network" class="cyber-data text-info">...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="admin-stat-box">
+                            <i class="fa-solid fa-coins neon-text me-3"></i>
+                            <div>
+                                <small class="text-secondary d-block">Balance</small>
+                                <span id="userBalance" class="cyber-data text-info">...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3 px-1 d-flex align-items-center flex-wrap gap-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fa-solid text-warning me-2"></i>
+                        <span id="num-hashes" class="text-secondary fw-bold">0</span>
+                    </div>
+
+                    <div id="my-admin-info-box"
+                        class="d-flex align-items-center border-start border-secondary border-opacity-25 ps-4">
+                        <i class="fa-solid fa-graduation-cap text-warning me-2"></i>
+                        <span class="text-secondary small fw-bold">UNIVERSITY NAME: <span id="Exporter-info"
+                                class="text-info">Loading...</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <div data-aos="zoom-in" class="col py-3 data-upload my-3 mx-md-2">
+                <label class="form-label text-info ms-1" style="font-weight: 500;">
+                    <i class="fa-solid fa-user-graduate me-2"></i> Student Full Name:
+                </label>
+                <div class="cyber-input-group mb-4">
+                    <span class="cyber-addon">
+                        <i class="fa-solid fa-id-card neon-text"></i>
+                    </span>
+                    <input type="text" id="studentName" class="form-control cyber-input"
+                        placeholder="Enter student's full name..." required>
+                </div>
+                <label class="form-label text-info ms-1" style="font-weight: 500;">
+                    <i class="fa-solid fa-envelope me-2"></i> Student Email ID:
+                </label>
+                <div class="cyber-input-group mb-4">
+                    <span class="cyber-addon">
+                        <i class="fa-solid fa-at neon-text"></i>
+                    </span>
+                    <input type="email" id="studentEmail" class="form-control cyber-input"
+                        placeholder="Enter student's email address..." autocomplete="off" autocapitalize="none"
+                        spellcheck="false" required>
+                </div>
+
+                <div id="drop-zone" class="cyber-drop-zone my-4">
+                    <div id="drop-zone-prompt-box" class="text-center">
+                        <div class="glow-icon-wrapper mb-3 mx-auto">
+                            <i class="fa-solid fa-cloud-arrow-up fa-2x cyber-cloud-icon"></i>
+                        </div>
+                        <h5 class="fw-bold text-light mb-1">Drag & Drop certificate here</h5>
+                        <span class="text-secondary">or <span class="cyber-browse-link">Browse File</span> to
+                            upload</span>
+                    </div>
+
+                    <div id="drop-zone-preview-box" style="display: none;" class="text-center p-3">
+                        <img id="image-preview" src="#" alt="Preview" class="mx-auto cyber-preview-img mb-3"
+                            style="display: none;">
+                        <div id="pdf-preview" style="display: none;" class="mb-3">
+                            <i class="fa-solid fa-file-pdf fa-4x text-danger mb-2"></i>
+                            <p id="preview-filename" class="text-info mb-0 fw-bold" style="word-break: break-all;"></p>
+                        </div>
+                        <button onclick="removeFile()" class="btn btn-sm btn-outline-danger cyber-remove-btn mt-2">
+                            <i class="fa-solid fa-trash me-1"></i> Remove & Select Another
+                        </button>
+                    </div>
+
+                    <input onchange="get_Sha3(); showFileName(this);" id="doc-file" type="file"
+                        accept="application/pdf, image/*" class="drop-zone__input" />
+                </div>
+
+                <span id="note" class="cyber-hashed-text text-center d-block"></span>
+                <p id="file-name-display" class="text-success text-center mt-2 mb-3"
+                    style="display:none; font-weight: bold;"></p>
+
+                <div class="text-center">
+                    <img id="loader" class="d-none mb-3" src="files/loader.svg" alt="loader" />
+                </div>
+
+                <div class="d-flex justify-content-center mt-4">
+                    <button onclick="sendHash()" class="btn cyber-btn px-5 py-3 mobile-full-btn" type="button"
+                        id="upload_file_button">
+                        <span>Upload to Blockchain</span>
+                        <i class="fa-solid fa-rocket ms-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div data-aos="zoom-in" class="cyber-result-card d-none my-4 mx-md-2 transaction-status col-lg">
+            <div class="row gx-0">
+                <div class="left col-md-7 p-4 d-flex flex-column cyber-details-section">
+                    <h5 class="text-info fw-bold mb-3"><i class="fa-solid fa-circle-check me-2"></i>Transaction Details
+                    </h5>
+
+                    <span class="cyber-info-row">
+                        <i class="fa-solid fa-user-graduate neon-icon"></i>
+                        <span class="text-secondary me-2">Student:</span>
+                        <span id="display-student-name" class="cyber-data text-info fw-bold"></span>
+                    </span>
+
+                    <span class="cyber-info-row"><i class="fa-solid fa-file-signature neon-icon"></i> <span
+                            id="transaction-hash" class="cyber-data"></span></span>
+                    <span class="cyber-info-row"><i class="fa-solid fa-hashtag neon-icon"></i> <span id="file-hash"
+                            class="cyber-data"></span></span>
+                    <span class="cyber-info-row"><i class="fa-solid fa-link neon-icon"></i> <span id="contract-address"
+                            class="cyber-data"></span></span>
+                    <span class="cyber-info-row"><i class="fa-regular fa-clock neon-icon"></i> <span id="time-stamps"
+                            class="cyber-data"></span></span>
+                    <span class="cyber-info-row"><i class="fa-solid fa-cubes neon-icon"></i> <span id="blockNumber"
+                            class="cyber-data"></span></span>
+                    <span class="cyber-info-row"><i class="fa-solid fa-cube neon-icon"></i> <span id="blockHash"
+                            class="cyber-data"></span></span>
+
+                    <div class="d-flex justify-content-center mt-4 gap-3 flex-wrap">
+                        <a title="Download QR Code" href="#" id="download-link" data-name="QR-Code"
+                            class="btn cyber-btn-view" download="image.png">
+                            <i class="fa-solid fa-qrcode me-2"></i> Download QR
+                        </a>
+                        <a target="_blank" title="Verify Document to check if the transaction successfully executed."
+                            href="#" id="verfiy" class="btn cyber-btn-view"
+                            style="border-color: #8a9ab9; color: #8a9ab9;">
+                            <i class="fa-solid fa-check-double me-2"></i> Verify Document
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-5 d-flex justify-content-center align-items-center p-4 cyber-image-section">
+                    <div id="qrcode" class="cyber-image-frame bg-white p-3 rounded"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="container-fluid p-0 mt-5">
+        <footer class="footer-dark m-0 cyber-footer-main">
+            <div class="container py-5">
+                <div class="row">
+                    <div class="col-sm-6 col-md-3 item">
+                        <h3 class="cyber-title-glow cyan-text">Services</h3>
+                        <ul class="cyber-links-list">
+                            <li><a href="#">Ethereum</a></li>
+                            <li><a href="#">Blockchain Tech.</a></li>
+                            <li><a href="#">Smart Contracts</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-sm-6 col-md-3 item">
+                        <h3 class="cyber-title-glow pink-text">About us</h3>
+                        <ul class="cyber-links-list">
+                            <li><a href="#">Company</a></li>
+                            <li><a href="#">Team</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-6 item text">
+                        <h3 class="footer-logo-text">
+                            <i class="fa-solid fa-dragon pulse-neon-pink"></i>
+                            Shubh<span class="cyan-text">Chain</span>
+                        </h3>
+                        <p class="footer-description-text">
+                            Praesent sed lobortis mi. Suspendisse vel placerat ligula. Vivamus
+                            ac sem lacus. Ut vehicula rhoncus elementum. Etiam quis tristique
+                            lectus. Aliquam in arcu eget velit pulvinar dictum vel in justo.
+                        </p>
+                    </div>
+
+                    <div class="col item social mt-4 d-flex justify-content-center">
+                        <a href="#" class="cyber-social-btn"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#" class="cyber-social-btn"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="#" class="cyber-social-btn"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="cyber-social-btn"><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-divider-neon mt-4"></div>
+                <p class="cyber-copyright-text pt-4">
+                    SHUBHCHAIN © 2026 // SECURED_NODE_ACCESS // ENCRYPTED
+                </p>
+            </div>
+        </footer>
+    </div>
+    </div>
+
+    <i onclick="topFunction()" id="scroll-btn" class="fa-solid fa-angle-up"></i>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="./js/aos.js"></script>
+    <script src="./js/script.js"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        // 1. EmailJS ko connect karein
+        (function () {
+            emailjs.init("bE6VRCjDIC8H7PnVQ");
+        })();
+
+        // 2. Updated Email bhejne ka logic
+        function sendEmailNotification(studentEmail, documentName, documentHash) {
+            var templateParams = {
+                to_email: studentEmail.toLowerCase(),
+                doc_name: documentName,
+                hash: documentHash
+            };
+
+            emailjs.send('service_cwynhfi', 'template_0mll2jd', templateParams)
+                .then(function (response) {
+                    console.log('EMAIL SUCCESS!', response.status, response.text);
+
+                    // 🎉 SUCCESS MIDDLE POPUP (Cyan Theme)
+                    Swal.fire({
+                        title: 'EMAIL SENT',
+                        html: `Certificate for <b style="color: #00f5ff;">${documentName}</b> has been dispatched to <b style="color: #00f5ff;">${studentEmail}</b>.`,
+                        icon: 'success',
+                        background: '#020c12',
+                        color: '#fff',
+                        confirmButtonColor: '#00f5ff',
+                        showClass: { popup: 'animate__animated animate__fadeInDown' },
+                        customClass: { popup: 'cyber-popup-border-cyan' }
+                    });
+
+                }, function (error) {
+                    console.log('EMAIL FAILED...', error);
+
+                    // ❌ ERROR MIDDLE POPUP
+                    Swal.fire({
+                        title: 'EMAIL FAILED',
+                        text: "Document secured on ShubhChain, but notification couldn't be sent.",
+                        icon: 'warning',
+                        background: '#020c12',
+                        color: '#ff0055',
+                        confirmButtonColor: '#ff0055'
+                    });
+                });
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="./js/aos.js"></script>
+</body>
+</body>
+
+</html>

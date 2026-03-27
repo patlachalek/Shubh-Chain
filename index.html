@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/loader.css" />
+    <link href="./css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link href="./css/aos.min.css" rel="stylesheet" />
+    <script src="js/App.js"></script>
+    <link rel="icon" href="./assets/images/icon.png" />
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script> <script src="js/App.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>ShubhChain</title>
+    <style>
+        /* 🚨 SYSTEM STATUS POP FIX */
+        .system-status-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.8rem, 5vw, 3.2rem) !important;
+            font-weight: 900 !important;
+            color: #ffffff !important;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .system-status-title span {
+            color: #00f5ff !important; /* Neon Cyan */
+            text-shadow: 0 0 15px rgba(0, 245, 255, 0.7);
+        }
+        /* Dashboard Container Fix */
+        .dashboard-main-card {
+            background: #0d1117 !important; /* Dashboard Dark Grey */
+            border: 1px solid rgba(0, 245, 255, 0.15);
+            border-radius: 12px;
+            position: relative;
+        }
+        .dashboard-main-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 200px; height: 4px;
+            background: #00f5ff;
+            box-shadow: 0 0 15px #00f5ff;
+            border-radius: 12px 0 0 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="loader-wraper">
+      <div class="lds-roller">
+        <div></div><div></div><div></div><div></div>
+        <div></div><div></div><div></div><div></div>
+      </div>
+    </div>
+    
+     <nav class="navbar navbar-expand-lg navbar-dark cyber-nav-container">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="index.html">
+      <i class="fa-solid fa-dragon logo-glow-red me-2"></i>
+      <span class="nav-shubh">Shubh</span><span class="nav-chain">Chain</span>
+    </a>
+
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+      <span class="navbar-toggler-icon"></span>
+    </button> 
+
+    <div class="collapse navbar-collapse" id="navContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
+        <li class="nav-item">
+            <a class="nav-link active-link" href="index.html">HOME</a>
+        </li>
+        <li class="nav-item exporter-only" style="display: none;">
+            <a class="nav-link" href="upload.html">UPLOAD</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="verify.html">VERIFY</a>
+        </li>
+        <li class="nav-item exporter-only" style="display: none;">
+            <a class="nav-link" href="delete.html">DELETE</a>
+        </li>
+        <li class="nav-item admin-only" style="display: none;">
+            <a class="nav-link" href="admin.html">ADMIN</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="about.html">TEAM</a>
+        </li>
+      </ul>
+
+      <div class="d-flex align-items-center ms-lg-auto">
+          <button onclick="connect()" id="leftAuthBtn" class="btn cyber-btn-outline-cyan btn-sm px-3 py-2">
+              ACCESS TERMINAL
+          </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+    <div class="container mb-5">
+
+      <div class="row content m-1">
+        <div data-aos="fade-right" class="dashboard-main-card col-lg-12 d-flex flex-column my-3 p-5">
+            
+            <div class="d-flex align-items-center mb-4">
+                <i class="fa-solid fa-microchip text-info fs-5 me-3"></i>
+                <h5 class="fw-bold text-secondary mb-0" style="letter-spacing: 3px; font-size: 0.85rem;">DASHBOARD / HOME</h5>
+            </div>
+
+            <div class="py-3">
+                <h1 class="system-status-title">SYSTEM STATUS: <span>SECURE</span></h1>
+                <p class="text-secondary" style="max-width: 850px; font-size: 1.1rem; line-height: 1.7; font-family: 'Exo 2';">
+                    ShubhChain provides an enterprise blockchain environment for decentralized document integrity. 
+                    Our engine ensures that every asset uploaded is immutable and globally verifiable.
+                </p>
+            </div>
+
+            <div class="d-flex flex-wrap gap-3 mt-3 mb-5">
+    <a href="verify.html" class="btn btn-danger px-4 py-3 fw-bold" style="border-radius: 4px; letter-spacing: 1px;">INITIALIZE VERIFICATION</a>
+    
+    <a href="upload.html" class="btn btn-outline-info px-4 py-3 fw-bold exporter-only" style="border-radius: 4px; letter-spacing: 1px; display: none;">NEW DOCUMENT UPLOAD</a>
+</div>
+
+            <div class="row g-4 mt-2">
+                <div class="col-md-4">
+                    <div class="p-4" style="background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.03);">
+                        <i class="fa-solid fa-bolt text-info mb-3 fs-3"></i>
+                        <h6 class="text-white fw-bold">RAPID SYNC</h6>
+                        <p class="text-secondary mb-0 small">Verification in < 1 second.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-4" style="background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.03);">
+                        <i class="fa-solid fa-link text-info mb-3 fs-3"></i>
+                        <h6 class="text-white fw-bold">IMMUTABLE</h6>
+                        <p class="text-secondary mb-0 small">Tamper-proof blockchain records.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-4" style="background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.03);">
+                        <i class="fa-solid fa-gas-pump text-info mb-3 fs-3"></i>
+                        <h6 class="text-white fw-bold">GAS-FREE</h6>
+                        <p class="text-secondary mb-0 small">Zero cost on local test networks.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="container my-5" data-aos="fade-up">
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="p-4" style="background: rgba(13, 17, 23, 0.6); border-radius: 12px; border: 1px solid rgba(0, 245, 255, 0.1); height: 100%;">
+                <h4 class="text-info mb-4" style="font-family: 'Orbitron'; font-size: 1.1rem;">
+                    <i class="fa-solid fa-microchip me-2"></i>THE PROBLEM WE SOLVE
+                </h4>
+                <p class="text-secondary" style="font-size: 0.95rem; line-height: 1.8;">
+                    Traditional document verification is slow and prone to forgery. 
+                    <span class="text-white">ShubhChain</span> eliminates this by creating a digital fingerprint of every document. 
+                    Once uploaded, the data is immutable, meaning no one (not even an admin) can change the certificate details.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="p-4" style="background: rgba(13, 17, 23, 0.6); border-radius: 12px; border: 1px solid rgba(0, 245, 255, 0.1); height: 100%;">
+                <h4 class="text-info mb-4" style="font-family: 'Orbitron'; font-size: 1.1rem;">
+                    <i class="fa-solid fa-layer-group me-2"></i>TECHNOLOGY STACK
+                </h4>
+                <div class="d-flex flex-wrap gap-2">
+                    <span class="badge bg-dark border border-info p-2 px-3">Ethereum Smart Contracts</span>
+                    <span class="badge bg-dark border border-info p-2 px-3">Web3.js Integration</span>
+                    <span class="badge bg-dark border border-info p-2 px-3">SHA-256 Hashing</span>
+                    <span class="badge bg-dark border border-info p-2 px-3">Solidity</span>
+                    <span class="badge bg-dark border border-info p-2 px-3">MetaMask API</span>
+                </div>
+                <p class="mt-3 text-secondary small">
+                    Our architecture ensures 100% decentralized data availability and security.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="p-4 text-center" style="background: linear-gradient(90deg, rgba(13,17,23,0.8) 0%, rgba(0,245,255,0.05) 100%); border-radius: 12px; border: 1px solid rgba(0, 245, 255, 0.1);">
+                <h5 class="text-white mb-4" style="font-family: 'Orbitron'; letter-spacing: 2px;">OPERATIONAL WORKFLOW</h5>
+                <div class="row g-2 align-items-center">
+                    <div class="col-md-3">
+                        <small class="text-info d-block">STEP 01</small>
+                        <span class="text-secondary small">Upload Doc</span>
+                    </div>
+                    <div class="col-md-1"><i class="fa-solid fa-chevron-right text-secondary opacity-25"></i></div>
+                    <div class="col-md-3">
+                        <small class="text-info d-block">STEP 02</small>
+                        <span class="text-secondary small">Generate SHA-256 Hash</span>
+                    </div>
+                    <div class="col-md-1"><i class="fa-solid fa-chevron-right text-secondary opacity-25"></i></div>
+                    <div class="col-md-3">
+                        <small class="text-info d-block">STEP 03</small>
+                        <span class="text-secondary small">Immutable Ledger Entry</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container my-5" data-aos="fade-up">
+    <div class="row g-4 align-items-center">
+        <div class="col-lg-6">
+            <h3 class="text-white fw-bold mb-4" style="font-family: 'Orbitron'; letter-spacing: 2px;">
+                WHY <span class="text-info">SHUBHCHAIN?</span>
+            </h3>
+            <div class="ps-3 border-start border-info border-3">
+                <div class="mb-4">
+                    <h6 class="text-info fw-bold">🛡️ ELIMINATING FRAUD</h6>
+                    <p class="text-secondary small">ShubhChain provides a cryptographic shield against document manipulation. Once a hash is generated via SHA-3, it becomes part of a permanent chain.</p>
+                </div>
+                <div class="mb-4">
+                    <h6 class="text-info fw-bold">🌍 GLOBAL ACCESSIBILITY</h6>
+                    <p class="text-secondary small">Institutions worldwide can verify student credentials instantly without needing direct access to private university databases.</p>
+                </div>
+                <div class="mb-0">
+                    <h6 class="text-info fw-bold">⚡ SMART AUTOMATION</h6>
+                    <p class="text-secondary small">Leveraging Ethereum Smart Contracts to automate the verification logic, ensuring 0% human error during the process.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 text-center">
+            <div class="p-2" style="border: 1px solid rgba(0, 245, 255, 0.2); border-radius: 20px; background: rgba(0,0,0,0.4);">
+                <img src="https://images.unsplash.com/photo-1639322537228-f710d846310a?auto=format&fit=crop&q=80&w=1200" 
+                  alt="Blockchain Node Visualization" 
+                  class="img-fluid" style="cursor: pointer;">
+                <div class="mt-3">
+                    <small class="text-secondary" style="font-family: 'Orbitron'; font-size: 0.65rem; letter-spacing: 2px;">
+                        DECENTRALIZED_NODE_VISUALIZATION.EXE
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container my-5" data-aos="fade-up">
+    
+    <div class="premium-container mb-5" tabindex="-1">
+        <h4 class="text-white mb-4" style="font-family: 'Orbitron'; letter-spacing: 2px;">
+            <i class="fa-solid fa-shield-halved text-info me-2"></i>PROTOCOL COMPARISON
+        </h4>
+        <div class="table-responsive" style="overflow: hidden;">
+            <table class="cyber-table">
+                <thead>
+                    <tr>
+                        <th>Feature Analytics</th>
+                        <th>Traditional Storage</th>
+                        <th>ShubhChain Ecosystem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Data Integrity</td>
+                        <td class="text-danger"><i class="fa-solid fa-circle-xmark me-2"></i>Mutable</td>
+                        <td class="text-info fw-bold"><i class="fa-solid fa-circle-check me-2"></i>100% Immutable</td>
+                    </tr>
+                    <tr>
+                        <td>Security Hash</td>
+                        <td>None / MD5</td>
+                        <td class="text-info fw-bold">SHA-3 (Keccak-256)</td>
+                    </tr>
+                    <tr>
+                        <td>Architecture</td>
+                        <td>Centralized Server</td>
+                        <td class="text-info fw-bold">Decentralized Nodes</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-4" data-aos="zoom-in">
+            <div class="hud-stat-box">
+                <i class="fa-solid fa-satellite-dish"></i>
+                <span class="text-secondary small d-block mb-1">NETWORK STATUS</span>
+                <span class="hud-value">ETHEREUM SEPOLIA</span>
+            </div>
+        </div>
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+            <div class="hud-stat-box">
+                <i class="fa-solid fa-link-slash"></i>
+                <span class="text-secondary small d-block mb-1">BLOCK INTEGRITY</span>
+                <span class="hud-value">VERIFIED & SIGNED</span>
+            </div>
+        </div>
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="400">
+            <div class="hud-stat-box">
+                <i class="fa-solid fa-microchip"></i>
+                <span class="text-secondary small d-block mb-1">SMART CONTRACT</span>
+                <span class="hud-value">0x889...B9ff6eee</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="./js/aos.js"></script>
+    <script>
+        AOS.init();
+        $(".loader-wraper").fadeOut("slow");
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="./js/aos.js"></script>
+    </body>
+</body>
+</html>
