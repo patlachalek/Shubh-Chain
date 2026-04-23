@@ -778,31 +778,37 @@ function show_txInfo() {
 
 
 async function get_ethBalance() {
-  await web3.eth.getBalance(window.userAddress, function (err, balance) {
-
-   
-    if (err === null) {
-      $("#userBalance").html(
-        "<i class='fa-brands fa-gg-circle mx-2 text-danger'></i>" +
-        web3.utils.fromWei(balance).substr(0, 6) +
-        ""
-      );
-    } else {
-      $("#userBalance").html("n/a");
-    }
-
+  try {
+    // 1. Await use karo, callback nahi
+    const balance = await web3.eth.getBalance(window.userAddress);
     
-    const balanceElement = document.getElementById("balance");
-    if (balanceElement) { 
-      if (err === null) {
-        balanceElement.innerHTML = web3.utils.fromWei(balance).substr(0, 6) + " ETH";
-      } else {
-        balanceElement.innerHTML = "n/a";
-      }
+    // 2. balance.toString() use karo taaki BigInt error na aaye
+    // 3. .substring() use karo instead of .substr() (modern standard)
+    const formattedBalance = web3.utils.fromWei(balance.toString(), 'ether').toString().substring(0, 6);
+
+    // Update Sidebar/Navbar UI
+    if ($("#userBalance").length) {
+      $("#userBalance").html(
+        "<i class='fa-brands fa-gg-circle mx-2 text-danger'></i>" + formattedBalance
+      );
     }
 
-  });
+    // Update Main Dashboard UI
+    const balanceElement = document.getElementById("balance");
+    if (balanceElement) {
+      balanceElement.innerHTML = formattedBalance + " ETH";
+    }
+
+  } catch (err) {
+    // Agar error aaye toh "n/a" dikhao
+    console.error("Balance fetch error:", err);
+    if ($("#userBalance").length) $("#userBalance").html("n/a");
+    const balanceElement = document.getElementById("balance");
+    if (balanceElement) balanceElement.innerHTML = "n/a";
+  }
 }
+
+// Ye event listener waisa hi rehne do
 if (window.ethereum) {
   window.ethereum.on("accountsChanged", function (accounts) {
     connect();
@@ -1143,48 +1149,58 @@ function getTime() {
 
 
 async function get_ChainID() {
-  let a = await web3.eth.getChainId();
-  console.log(a);
-  switch (a) {
-    case 1:
-      window.chainID = "Ethereum Main Network (Mainnet)";
-      break;
-    case 80001:
-      window.chainID = "Polygon Test Network";
-      break;
-    case 137:
-      window.chainID = "Polygon Mainnet";
-      break;
-    case 11155111:
-      window.chainID = "Sepolia";
-      break;
-    case 3:
-      window.chainID = "Ropsten Test Network";
-      break;
-    case 4:
-      window.chainID = "Rinkeby Test Network";
-      break;
-    case 5:
-      window.chainID = "Goerli Test Network";
-      break;
-    case 42:
-      window.chainID = "Kovan Test Network";
-      break;
-    case 1337:
-      window.chainID = "Ganache (1337)";
-      break;
-    default:
-      window.chainID = "Uknnown ChainID";
-      break;
-  }
-  let network = document.getElementById("network");
-  if (network) {
-    document.getElementById(
-      "network"
-    ).innerHTML = `<i class="text-info fa-solid fa-circle-nodes mx-2"></i>${window.chainID}`;
+  try {
+    // Number() mein wrap karne se BigInt error nahi aayega
+    const a = Number(await web3.eth.getChainId());
+    console.log("Current Chain ID:", a);
+
+    switch (a) {
+      case 1:
+        window.chainID = "Ethereum Main Network (Mainnet)";
+        break;
+      case 80001:
+        window.chainID = "Polygon Test Network";
+        break;
+      case 137:
+        window.chainID = "Polygon Mainnet";
+        break;
+      case 11155111:
+        window.chainID = "Sepolia";
+        break;
+      case 3:
+        window.chainID = "Ropsten Test Network";
+        break;
+      case 4:
+        window.chainID = "Rinkeby Test Network";
+        break;
+      case 5:
+        window.chainID = "Goerli Test Network";
+        break;
+      case 42:
+        window.chainID = "Kovan Test Network";
+        break;
+      case 1337:
+        window.chainID = "Ganache (1337)";
+        break;
+      default:
+        window.chainID = "Unknown ChainID (" + a + ")";
+        break;
+    }
+
+    // UI Update logic
+    const networkElement = document.getElementById("network");
+    if (networkElement) {
+      networkElement.innerHTML = `<i class="text-info fa-solid fa-circle-nodes mx-2"></i>${window.chainID}`;
+    }
+
+  } catch (error) {
+    console.error("ChainID fetch error:", error);
+    const networkElement = document.getElementById("network");
+    if (networkElement) {
+      networkElement.innerHTML = `<i class="text-danger fa-solid fa-circle-nodes mx-2"></i>Network Error`;
+    }
   }
 }
-
 function get_Sha3() {
   hide_txInfo();
   $("#note").html(`<h5 class="text-warning">Hashing Your Document 😴...</h5>`);
