@@ -378,7 +378,35 @@ window.CONTRACT = {
 	}
 ]
 };
-
+// 1. Check karo ki MetaMask installed hai ya nahi
+async function connectWallet() {
+    if (window.ethereum) {
+        try {
+            // 2. MetaMask se permission maango
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            
+            // 3. Chain ID check karo (Sepolia ki ID 11155111 hai, hex mein 0xaa36a7)
+            const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+            
+            if (chainId !== '0xaa36a7') {
+                alert("Please switch to Sepolia Testnet in your MetaMask!");
+                // Switch karne ka prompt bhej do
+                await window.ethereum.request({
+                    method: 'wallet_switchEthereumChain',
+                    params: [{ chainId: '0xaa36a7' }],
+                });
+            }
+            
+            console.log("Connected:", accounts[0]);
+            // Yahan se tumhara contract interaction shuru hoga
+        } catch (error) {
+            console.error("Error connecting:", error);
+            alert("Error: " + error.message);
+        }
+    } else {
+        alert("MetaMask install karo bhai!");
+    }
+}
 async function connect() {
   if (window.ethereum) {
     try {
