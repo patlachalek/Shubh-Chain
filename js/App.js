@@ -460,119 +460,116 @@ async function connect() {
   }
 }
 window.onload = async () => {
+    // 1. Initial UI Setup (Hide loaders and default buttons)
+    if (window.location.href.indexOf("verify.html") > -1) {
+        $("#loader").hide();
+        $(".loader-wraper").fadeOut("slow");
+        $("#upload_file_button").attr("disabled", true);
+    }
 
-  if (window.location.href.indexOf("verify.html") > -1) {
-    $("#loader").hide();
+    $("#loginButton").hide();
+    $("#recent-header").hide();
     $(".loader-wraper").fadeOut("slow");
+    hide_txInfo();
     $("#upload_file_button").attr("disabled", true);
-  }
 
-  $("#loginButton").hide();
-  $("#recent-header").hide();
-  $(".loader-wraper").fadeOut("slow");
-  hide_txInfo();
-  $("#upload_file_button").attr("disabled", true);
+    window.userAddress = window.localStorage.getItem("userAddress");
 
-  window.userAddress = window.localStorage.getItem("userAddress");
+    // 2. Initialize Web3 and Contract
+    if (window.ethereum) {
+        window.web3 = new Web3(window.ethereum);
+        window.contract = new window.web3.eth.Contract(
+            window.CONTRACT.abi,
+            window.CONTRACT.address
+        );
 
-  if (window.ethereum) {
+        // 3. User & Role Detection Logic
+        if (window.userAddress && window.userAddress.length > 10) {
+            $("#logoutButton").show();
+            $("#loginButton").hide();
+            $("#userAddress").html(
+                `<i class="fa-solid fa-address-card mx-2 text-primary"></i>${truncateAddress(window.userAddress)}
+                 <a class="text-info" href="${window.CONTRACT.explore}/address/${window.userAddress}" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-solid fa-square-arrow-up-right text-warning"></i>
+                 </a>`
+            );
 
-    window.web3 = new Web3(window.ethereum);
-    window.contract = new window.web3.eth.Contract(
-      window.CONTRACT.abi,
-      window.CONTRACT.address
-    );
+            try {
+                const accounts = await window.web3.eth.getAccounts();
+                const currentUser = accounts[0];
+                const adminAddress = await window.contract.methods.owner().call();
+                const exporterData = await window.contract.methods.Exporters(currentUser).call();
 
+                if (currentUser.toLowerCase() === adminAddress.toLowerCase()) {
+                    console.log("Welcome Admin!");
+                    $(".admin-only").show();
+                    $(".exporter-only").show();
+                    await window.updateDashboardStats(currentUser, true);
+                } else if (exporterData.blockNumber != "0") {
+                    console.log("Welcome Exporter!");
+                    $(".admin-only").hide();
+                    $(".exporter-only").show();
+                    await window.updateDashboardStats(currentUser, false);
+                } else {
+                    console.log("Unknown User Logged In");
+                    $(".admin-only, .exporter-only").hide();
+                }
+            } catch (e) {
+                console.log("Role detection error:", e);
+            }
 
-    if (window.userAddress && window.userAddress.length > 10) {
-      $("#logoutButton").show();
-      $("#loginButton").hide();
-      $("#userAddress").html(
-        `<i class="fa-solid fa-address-card mx-2 text-primary"></i>${truncateAddress(window.userAddress)}
-         <a class="text-info" href="${window.CONTRACT.explore}/address/${window.userAddress}" target="_blank" rel="noopener noreferrer">
-            <i class="fa-solid fa-square-arrow-up-right text-warning"></i>
-         </a>`
-      );
+            await getExporterInfo();
+            await get_ChainID();
+            await get_ethBalance();
 
+            $("#Exporter-info").html(
+                `<i class="fa-solid fa-building-columns mx-2 text-warning"></i>${window.info}`
+            );
 
-      try {
-        const accounts = await window.web3.eth.getAccounts();
-        const currentUser = accounts[0];
-
-        const adminAddress = await window.contract.methods.owner().call();
-        const exporterData = await window.contract.methods.Exporters(currentUser).call();
-
-        if (currentUser.toLowerCase() === adminAddress.toLowerCase()) {
-          console.log("Welcome Admin!");
-          $(".admin-only").show();
-          $(".exporter-only").show();
-
-          await window.updateDashboardStats(currentUser, true);
+            if (window.location.href.indexOf("upload.html") > -1) {
+                setTimeout(() => { listen(); }, 0);
+            }
+        } else {
+            $("#logoutButton").hide();
+            $("#loginButton").show();
+            $("#upload_file_button").attr("disabled", true);
+            $("#doc-file").attr("disabled", true);
+            $(".box").addClass("d-none");
+            $(".loading-tx").addClass("d-none");
         }
-        else if (exporterData.blockNumber != "0") {
-          console.log("Welcome Exporter!");
-          $(".admin-only").hide();
-          $(".exporter-only").show();
 
-          await window.updateDashboardStats(currentUser, false);
+        // 4. FIXED: Verify Page Auto-Loading Logic
+        if (window.location.href.indexOf("verify.html") > -1) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const hashFromURL = urlParams.get('hash');
+
+            if (hashFromURL) {
+                // Polling for contract readiness
+                const checkContract = setInterval(() => {
+                    if (window.contract) {
+                        clearInterval(checkContract);
+                        console.log("Contract ready, triggering QR verify...");
+                        window.hashedfile = hashFromURL;
+                        verify_Hash(hashFromURL);
+                    }
+                }, 300);
+                
+                // Safety break after 5 seconds
+                setTimeout(() => clearInterval(checkContract), 5000);
+            } else {
+                checkURL();
+            }
         }
-        else {
-          console.log("Unknown User Logged In");
-          $(".admin-only, .exporter-only").hide();
-        }
-      } catch (e) {
-        console.log("Role detection error:", e);
-      }
-
-      await getExporterInfo();
-      await get_ChainID();
-      await get_ethBalance();
-
-      $("#Exporter-info").html(
-        `<i class="fa-solid fa-building-columns mx-2 text-warning"></i>${window.info}`
-      );
-
-      if (window.location.href.indexOf("upload.html") > -1) {
-        setTimeout(() => {
-          listen();
-        }, 0);
-      }
 
     } else {
-
-      $("#logoutButton").hide();
-      $("#loginButton").show();
-      $("#upload_file_button").attr("disabled", true);
-      $("#doc-file").attr("disabled", true);
-      $(".box").addClass("d-none");
-      $(".loading-tx").addClass("d-none");
+        $("#logoutButton").hide();
+        $("#loginButton").hide();
+        $(".box").addClass("d-none");
+        $("#upload_file_button").attr("disabled", true);
+        $("#doc-file").attr("disabled", true);
+        if (document.querySelector(".alert")) document.querySelector(".alert").classList.remove("d-none");
     }
-
-
-    if (window.location.href.indexOf("verify.html") > -1) {
-      const urlParams = new URLSearchParams(window.location.search);
-      const hashFromURL = urlParams.get('hash');
-
-      if (hashFromURL) {
-        setTimeout(() => {
-          verify_Hash(hashFromURL);
-        }, 500);
-      } else {
-        checkURL();
-      }
-    }
-
-  } else {
-
-    $("#logoutButton").hide();
-    $("#loginButton").hide();
-    $(".box").addClass("d-none");
-    $("#upload_file_button").attr("disabled", true);
-    $("#doc-file").attr("disabled", true);
-    if (document.querySelector(".alert")) document.querySelector(".alert").classList.remove("d-none");
-  }
 };
-
 async function verify_Hash() {
 
   $("#loader").show();
@@ -2366,3 +2363,23 @@ window.updateAdminAnalytics = async function () {
     console.error("Analytics Error:", e);
   }
 };
+// Is function ko Apne App.js mein sabse upar ya window.onload ke paas daal do
+async function initAndVerify() {
+    console.log("Checking for contract ready state...");
+    
+    // Agar contract nahi hai, toh 300ms ruk kar wapas check karo
+    if (!window.contract) {
+        setTimeout(initAndVerify, 300);
+        return;
+    }
+
+    // Contract mil gaya, ab check karo URL mein hash hai ya nahi
+    const urlParams = new URLSearchParams(window.location.search);
+    const hashFromURL = urlParams.get('hash');
+
+    if (hashFromURL) {
+        console.log("Auto-verifying hash from QR:", hashFromURL);
+        window.hashedfile = hashFromURL;
+        await verify_Hash();
+    }
+}
