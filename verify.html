@@ -256,7 +256,26 @@
                 SHUBHCHAIN © 2026 // SECURED_NODE_ACCESS // ENCRYPTED
             </p>
         </div>
-    </footer>
+    </footer> 
+    <script>window.addEventListener('load', async function() {
+    // 1. URL se hash nikaalo
+    const urlParams = new URLSearchParams(window.location.search);
+    const hash = urlParams.get('hash');
+
+    if (hash) {
+        console.log("Auto-verifying document with hash:", hash);
+        
+        // 2. Input field mein hash daalo (agar tumne input field banayi hai)
+        const inputField = document.getElementById("docHashInput"); // Apni ID check kar lena
+        if (inputField) {
+            inputField.value = hash;
+        }
+
+        // 3. Verification function call karo
+        // (Yahan apne us function ka naam likho jo verify button click par chalta hai)
+        await verifyDocument(); 
+    }
+});</script>
 
     <i onclick="topFunction()" id="scroll-btn" class="fa-solid fa-angle-up"></i>
     <script src="./js/script.js"></script>
