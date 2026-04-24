@@ -1,7 +1,7 @@
 const PINATA_JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJlYzlmMDU0Yy03ZGJjLTQzNWUtOTRkNC00MDllNDhkNjkyZWMiLCJlbWFpbCI6InNodWJoYW1wYXRpbDk4NzY4QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxLCJpZCI6IkZSQTEifSx7ImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxLCJpZCI6Ik5ZQzEifV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiI3YmY4NjNiYWQ0MzU0OTI2NjQ5NSIsInNjb3BlZEtleVNlY3JldCI6IjM0MjgxNDA1OWE2M2U3ZDgxZjZkMDNmYmI0NjdlNDAwZDdhZjRiMjc2NThmOWQ2MmM1ZjhiOTY5NGM3NzBhM2YiLCJleHAiOjE4MDUyOTg1MjJ9.R66sTN4QyDS5azgmE2TE1EnEIjW6WHDQQr-aeGu1HQk";
 window.CONTRACT = {
-address: "0x9365667Fe0dA16B2889818aAA6a54AEbda7F48d4",
-  network: "https://sepolia.drpc.org", 
+  address: "0x9365667Fe0dA16B2889818aAA6a54AEbda7F48d4",
+  network: "https://rpc.sepolia.org",
   explore: "https://sepolia.etherscan.io/address/",
 
   abi: [
@@ -460,116 +460,119 @@ async function connect() {
   }
 }
 window.onload = async () => {
-    // 1. Initial UI Setup (Hide loaders and default buttons)
-    if (window.location.href.indexOf("verify.html") > -1) {
-        $("#loader").hide();
-        $(".loader-wraper").fadeOut("slow");
-        $("#upload_file_button").attr("disabled", true);
-    }
 
-    $("#loginButton").hide();
-    $("#recent-header").hide();
+  if (window.location.href.indexOf("verify.html") > -1) {
+    $("#loader").hide();
     $(".loader-wraper").fadeOut("slow");
-    hide_txInfo();
     $("#upload_file_button").attr("disabled", true);
+  }
 
-    window.userAddress = window.localStorage.getItem("userAddress");
+  $("#loginButton").hide();
+  $("#recent-header").hide();
+  $(".loader-wraper").fadeOut("slow");
+  hide_txInfo();
+  $("#upload_file_button").attr("disabled", true);
 
-    // 2. Initialize Web3 and Contract
-    if (window.ethereum) {
-        window.web3 = new Web3(window.ethereum);
-        window.contract = new window.web3.eth.Contract(
-            window.CONTRACT.abi,
-            window.CONTRACT.address
-        );
+  window.userAddress = window.localStorage.getItem("userAddress");
 
-        // 3. User & Role Detection Logic
-        if (window.userAddress && window.userAddress.length > 10) {
-            $("#logoutButton").show();
-            $("#loginButton").hide();
-            $("#userAddress").html(
-                `<i class="fa-solid fa-address-card mx-2 text-primary"></i>${truncateAddress(window.userAddress)}
-                 <a class="text-info" href="${window.CONTRACT.explore}/address/${window.userAddress}" target="_blank" rel="noopener noreferrer">
-                    <i class="fa-solid fa-square-arrow-up-right text-warning"></i>
-                 </a>`
-            );
+  if (window.ethereum) {
 
-            try {
-                const accounts = await window.web3.eth.getAccounts();
-                const currentUser = accounts[0];
-                const adminAddress = await window.contract.methods.owner().call();
-                const exporterData = await window.contract.methods.Exporters(currentUser).call();
+    window.web3 = new Web3(window.ethereum);
+    window.contract = new window.web3.eth.Contract(
+      window.CONTRACT.abi,
+      window.CONTRACT.address
+    );
 
-                if (currentUser.toLowerCase() === adminAddress.toLowerCase()) {
-                    console.log("Welcome Admin!");
-                    $(".admin-only").show();
-                    $(".exporter-only").show();
-                    await window.updateDashboardStats(currentUser, true);
-                } else if (exporterData.blockNumber != "0") {
-                    console.log("Welcome Exporter!");
-                    $(".admin-only").hide();
-                    $(".exporter-only").show();
-                    await window.updateDashboardStats(currentUser, false);
-                } else {
-                    console.log("Unknown User Logged In");
-                    $(".admin-only, .exporter-only").hide();
-                }
-            } catch (e) {
-                console.log("Role detection error:", e);
-            }
 
-            await getExporterInfo();
-            await get_ChainID();
-            await get_ethBalance();
+    if (window.userAddress && window.userAddress.length > 10) {
+      $("#logoutButton").show();
+      $("#loginButton").hide();
+      $("#userAddress").html(
+        `<i class="fa-solid fa-address-card mx-2 text-primary"></i>${truncateAddress(window.userAddress)}
+         <a class="text-info" href="${window.CONTRACT.explore}/address/${window.userAddress}" target="_blank" rel="noopener noreferrer">
+            <i class="fa-solid fa-square-arrow-up-right text-warning"></i>
+         </a>`
+      );
 
-            $("#Exporter-info").html(
-                `<i class="fa-solid fa-building-columns mx-2 text-warning"></i>${window.info}`
-            );
 
-            if (window.location.href.indexOf("upload.html") > -1) {
-                setTimeout(() => { listen(); }, 0);
-            }
-        } else {
-            $("#logoutButton").hide();
-            $("#loginButton").show();
-            $("#upload_file_button").attr("disabled", true);
-            $("#doc-file").attr("disabled", true);
-            $(".box").addClass("d-none");
-            $(".loading-tx").addClass("d-none");
+      try {
+        const accounts = await window.web3.eth.getAccounts();
+        const currentUser = accounts[0];
+
+        const adminAddress = await window.contract.methods.owner().call();
+        const exporterData = await window.contract.methods.Exporters(currentUser).call();
+
+        if (currentUser.toLowerCase() === adminAddress.toLowerCase()) {
+          console.log("Welcome Admin!");
+          $(".admin-only").show();
+          $(".exporter-only").show();
+
+          await window.updateDashboardStats(currentUser, true);
         }
+        else if (exporterData.blockNumber != "0") {
+          console.log("Welcome Exporter!");
+          $(".admin-only").hide();
+          $(".exporter-only").show();
 
-        // 4. FIXED: Verify Page Auto-Loading Logic
-        if (window.location.href.indexOf("verify.html") > -1) {
-            const urlParams = new URLSearchParams(window.location.search);
-            const hashFromURL = urlParams.get('hash');
-
-            if (hashFromURL) {
-                // Polling for contract readiness
-                const checkContract = setInterval(() => {
-                    if (window.contract) {
-                        clearInterval(checkContract);
-                        console.log("Contract ready, triggering QR verify...");
-                        window.hashedfile = hashFromURL;
-                        verify_Hash(hashFromURL);
-                    }
-                }, 300);
-                
-                // Safety break after 5 seconds
-                setTimeout(() => clearInterval(checkContract), 5000);
-            } else {
-                checkURL();
-            }
+          await window.updateDashboardStats(currentUser, false);
         }
+        else {
+          console.log("Unknown User Logged In");
+          $(".admin-only, .exporter-only").hide();
+        }
+      } catch (e) {
+        console.log("Role detection error:", e);
+      }
+
+      await getExporterInfo();
+      await get_ChainID();
+      await get_ethBalance();
+
+      $("#Exporter-info").html(
+        `<i class="fa-solid fa-building-columns mx-2 text-warning"></i>${window.info}`
+      );
+
+      if (window.location.href.indexOf("upload.html") > -1) {
+        setTimeout(() => {
+          listen();
+        }, 0);
+      }
 
     } else {
-        $("#logoutButton").hide();
-        $("#loginButton").hide();
-        $(".box").addClass("d-none");
-        $("#upload_file_button").attr("disabled", true);
-        $("#doc-file").attr("disabled", true);
-        if (document.querySelector(".alert")) document.querySelector(".alert").classList.remove("d-none");
+
+      $("#logoutButton").hide();
+      $("#loginButton").show();
+      $("#upload_file_button").attr("disabled", true);
+      $("#doc-file").attr("disabled", true);
+      $(".box").addClass("d-none");
+      $(".loading-tx").addClass("d-none");
     }
+
+
+    if (window.location.href.indexOf("verify.html") > -1) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const hashFromURL = urlParams.get('hash');
+
+      if (hashFromURL) {
+        setTimeout(() => {
+          verify_Hash(hashFromURL);
+        }, 500);
+      } else {
+        checkURL();
+      }
+    }
+
+  } else {
+
+    $("#logoutButton").hide();
+    $("#loginButton").hide();
+    $(".box").addClass("d-none");
+    $("#upload_file_button").attr("disabled", true);
+    $("#doc-file").attr("disabled", true);
+    if (document.querySelector(".alert")) document.querySelector(".alert").classList.remove("d-none");
+  }
 };
+
 async function verify_Hash() {
 
   $("#loader").show();
@@ -745,41 +748,30 @@ function show_txInfo() {
 
 
 async function get_ethBalance() {
-  try {
-    // 1. Await use karo, callback nahi
-    const balance = await web3.eth.getBalance(window.userAddress);
-    
-    // 2. balance.toString() use karo taaki BigInt error na aaye
-    // 3. .substring() use karo instead of .substr() (modern standard)
-    const formattedBalance = web3.utils.fromWei(balance.toString(), 'ether').toString().substring(0, 6);
+    try {
+        // Naye Web3 mein hum await use karte hain, callback nahi
+        const balance = await web3.eth.getBalance(window.userAddress);
+        const ethBalance = web3.utils.fromWei(balance, 'ether').substring(0, 6);
 
-    // Update Sidebar/Navbar UI
-    if ($("#userBalance").length) {
-      $("#userBalance").html(
-        "<i class='fa-brands fa-gg-circle mx-2 text-danger'></i>" + formattedBalance
-      );
+        // 1. Navbar/Sidebar balance update
+        if ($("#userBalance").length) {
+            $("#userBalance").html(
+                `<i class='fa-brands fa-gg-circle mx-2 text-danger'></i>${ethBalance}`
+            );
+        }
+
+        // 2. Dashboard main balance update
+        const balanceElement = document.getElementById("balance");
+        if (balanceElement) {
+            balanceElement.innerHTML = ethBalance + " ETH";
+        }
+    } catch (err) {
+        console.error("Balance fetch error:", err);
+        $("#userBalance").html("n/a");
+        if (document.getElementById("balance")) {
+            document.getElementById("balance").innerHTML = "n/a";
+        }
     }
-
-    // Update Main Dashboard UI
-    const balanceElement = document.getElementById("balance");
-    if (balanceElement) {
-      balanceElement.innerHTML = formattedBalance + " ETH";
-    }
-
-  } catch (err) {
-    // Agar error aaye toh "n/a" dikhao
-    console.error("Balance fetch error:", err);
-    if ($("#userBalance").length) $("#userBalance").html("n/a");
-    const balanceElement = document.getElementById("balance");
-    if (balanceElement) balanceElement.innerHTML = "n/a";
-  }
-}
-
-// Ye event listener waisa hi rehne do
-if (window.ethereum) {
-  window.ethereum.on("accountsChanged", function (accounts) {
-    connect();
-  });
 }
 if (window.ethereum) {
   window.ethereum.on("accountsChanged", function (accounts) {
@@ -1122,56 +1114,45 @@ function getTime() {
 
 
 async function get_ChainID() {
-  try {
-    // Number() mein wrap karne se BigInt error nahi aayega
-    const a = Number(await web3.eth.getChainId());
-    console.log("Current Chain ID:", a);
-
-    switch (a) {
-      case 1:
-        window.chainID = "Ethereum Main Network (Mainnet)";
-        break;
-      case 80001:
-        window.chainID = "Polygon Test Network";
-        break;
-      case 137:
-        window.chainID = "Polygon Mainnet";
-        break;
-      case 11155111:
-        window.chainID = "Sepolia";
-        break;
-      case 3:
-        window.chainID = "Ropsten Test Network";
-        break;
-      case 4:
-        window.chainID = "Rinkeby Test Network";
-        break;
-      case 5:
-        window.chainID = "Goerli Test Network";
-        break;
-      case 42:
-        window.chainID = "Kovan Test Network";
-        break;
-      case 1337:
-        window.chainID = "Ganache (1337)";
-        break;
-      default:
-        window.chainID = "Unknown ChainID (" + a + ")";
-        break;
-    }
-
-    // UI Update logic
-    const networkElement = document.getElementById("network");
-    if (networkElement) {
-      networkElement.innerHTML = `<i class="text-info fa-solid fa-circle-nodes mx-2"></i>${window.chainID}`;
-    }
-
-  } catch (error) {
-    console.error("ChainID fetch error:", error);
-    const networkElement = document.getElementById("network");
-    if (networkElement) {
-      networkElement.innerHTML = `<i class="text-danger fa-solid fa-circle-nodes mx-2"></i>Network Error`;
-    }
+  let a = await web3.eth.getChainId();
+  console.log(a);
+  switch (a) {
+    case 1:
+      window.chainID = "Ethereum Main Network (Mainnet)";
+      break;
+    case 80001:
+      window.chainID = "Polygon Test Network";
+      break;
+    case 137:
+      window.chainID = "Polygon Mainnet";
+      break;
+    case 11155111:
+      window.chainID = "Sepolia";
+      break;
+    case 3:
+      window.chainID = "Ropsten Test Network";
+      break;
+    case 4:
+      window.chainID = "Rinkeby Test Network";
+      break;
+    case 5:
+      window.chainID = "Goerli Test Network";
+      break;
+    case 42:
+      window.chainID = "Kovan Test Network";
+      break;
+    case 1337:
+      window.chainID = "Ganache (1337)";
+      break;
+    default:
+      window.chainID = "Uknnown ChainID";
+      break;
+  }
+  let network = document.getElementById("network");
+  if (network) {
+    document.getElementById(
+      "network"
+    ).innerHTML = `<i class="text-info fa-solid fa-circle-nodes mx-2"></i>${window.chainID}`;
   }
 }
 
@@ -1545,31 +1526,21 @@ async function listen() {
   if (loadingTx) loadingTx.classList.remove("d-none");
 
   try {
-    // 1. Current block number fetch karo
-    const currentBlock = await web3.eth.getBlockNumber();
-    
-    // 2. Optimization: Sirf pichle 50,000 blocks fetch karo
-    // Isse node par load kam padega aur Sync Failed nahi hoga
-    const startBlock = currentBlock > 50000 ? currentBlock - 50000 : 0;
-
     // Blockchain se past events (history) nikalo
     const events = await window.contract.getPastEvents("addHash", {
       filter: {
         _exporter: window.userAddress, // Sirf current Admin ke documents
       },
-      fromBlock: startBlock, // 0 ki jagah optimized range
+      fromBlock: 0, // Shuruwat se ab tak
       toBlock: "latest",
     });
 
     printTransactions(events); // List print karo
   } catch (error) {
     console.error("Error fetching history:", error);
-    
-    // Agar sync fail ho jaye toh loader hata do
-    let loadingTx = document.querySelector(".loading-tx");
-    if (loadingTx) loadingTx.classList.add("d-none");
   }
 }
+
 
 function printTransactions(data) {
   const main = document.querySelector(".transactions");
@@ -1972,54 +1943,39 @@ window.updateDashboardStats = async function (address, isAdmin) {
       return;
     }
 
-    // 1. Current block number fetch karo
-    const currentBlock = await web3.eth.getBlockNumber();
-    // 2. Sirf pichle 50,000 blocks fetch karo (Request overload nahi hogi)
-    const startBlock = currentBlock > 50000 ? currentBlock - 50000 : 0;
-
     if (isAdmin) {
-      // 👑 ADMIN: Global Stats
-      $("#stat-exporters-box").show();
-      try {
-        const totalHashes = await window.contract.methods.count_hashes().call();
-        const totalExporters = await window.contract.methods.count_Exporters().call();
-        $("#num-hashes").html(`<i class="fa-solid fa-file mx-2 text-warning"></i>${totalHashes}`);
-        $("#num-exporters").html(`<i class="fa-solid fa-building-columns mx-2 text-info"></i> ${totalExporters}`).show();
-        $("#stat-exporters-container").show();
-      } catch (e) { console.error("Admin Stats Error:", e); }
+
+      const totalHashes = await window.contract.methods.count_hashes().call();
+      const totalExporters = await window.contract.methods.count_Exporters().call();
+
+      $("#num-hashes").html(`<i class="fa-solid fa-file mx-2 text-warning"></i>${totalHashes}`);
+      $("#num-exporters").html(`<i class="fa-solid fa-building-columns mx-2 text-info"></i> ${totalExporters}`).show();
+      $("#stat-exporters-container").show();
     } else {
-      // 🧪 EXPORTER: Personal Stats Only
-      $("#stat-exporters-box, #num-exporters").hide();
-      $(".cyber-card h5").html('<i class="fa-solid fa-upload text-info me-2"></i>EXPORTER DASHBOARD');
 
-      try {
-        // Updated logic with startBlock
-        const uploads = await window.contract.getPastEvents("addHash", {
-          filter: { _exporter: address.toLowerCase() },
-          fromBlock: startBlock, // 0 ki jagah dynamic startBlock
-          toBlock: "latest"
-        });
 
-        const deletions = await window.contract.getPastEvents("deleteHashEvent", {
-          filter: { _exporter: address.toLowerCase() },
-          fromBlock: startBlock, // 0 ki jagah dynamic startBlock
-          toBlock: "latest"
-        });
 
-        const activeCount = uploads.length - deletions.length;
+      const uploads = await window.contract.getPastEvents("addHash", {
+        filter: { _exporter: address.toLowerCase() },
+        fromBlock: 0, toBlock: "latest"
+      });
 
-        $("#num-hashes").html(`<i class="fa-solid fa-file mx-2 text-warning"></i> ${activeCount}`);
-        console.log("Count Updated for Exporter:", activeCount);
-      } catch (err) {
-        console.error("Filter Error:", err);
-        $("#num-hashes").html(`<i class="fa-solid fa-file mx-2 text-warning"></i> 0`);
-      }
+
+      const deletions = await window.contract.getPastEvents("deleteHashEvent", {
+        filter: { _exporter: address.toLowerCase() },
+        fromBlock: 0, toBlock: "latest"
+      });
+
+
+      const activeCount = uploads.length - deletions.length;
+
+
+      $("#num-hashes").html(`<i class="fa-solid fa-file mx-2 text-warning"></i> ${activeCount}`);
+
+
+      $("#num-exporters").hide();
+      $("#stat-exporters-container").hide();
     }
-
-    // Background sync
-    if (typeof get_ethBalance === "function") get_ethBalance();
-    if (typeof get_ChainID === "function") get_ChainID();
-
   } catch (e) {
     console.error("Stats Update Error:", e);
   }
@@ -2388,23 +2344,3 @@ window.updateAdminAnalytics = async function () {
     console.error("Analytics Error:", e);
   }
 };
-// Is function ko Apne App.js mein sabse upar ya window.onload ke paas daal do
-async function initAndVerify() {
-    console.log("Checking for contract ready state...");
-    
-    // Agar contract nahi hai, toh 300ms ruk kar wapas check karo
-    if (!window.contract) {
-        setTimeout(initAndVerify, 300);
-        return;
-    }
-
-    // Contract mil gaya, ab check karo URL mein hash hai ya nahi
-    const urlParams = new URLSearchParams(window.location.search);
-    const hashFromURL = urlParams.get('hash');
-
-    if (hashFromURL) {
-        console.log("Auto-verifying hash from QR:", hashFromURL);
-        window.hashedfile = hashFromURL;
-        await verify_Hash();
-    }
-}
