@@ -1,7 +1,7 @@
 const PINATA_JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJlYzlmMDU0Yy03ZGJjLTQzNWUtOTRkNC00MDllNDhkNjkyZWMiLCJlbWFpbCI6InNodWJoYW1wYXRpbDk4NzY4QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxLCJpZCI6IkZSQTEifSx7ImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxLCJpZCI6Ik5ZQzEifV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiI3YmY4NjNiYWQ0MzU0OTI2NjQ5NSIsInNjb3BlZEtleVNlY3JldCI6IjM0MjgxNDA1OWE2M2U3ZDgxZjZkMDNmYmI0NjdlNDAwZDdhZjRiMjc2NThmOWQ2MmM1ZjhiOTY5NGM3NzBhM2YiLCJleHAiOjE4MDUyOTg1MjJ9.R66sTN4QyDS5azgmE2TE1EnEIjW6WHDQQr-aeGu1HQk";
 window.CONTRACT = {
-  address: "0x9365667Fe0dA16B2889818aAA6a54AEbda7F48d4",
-  network: "https://rpc.sepolia.org",
+address: "0x9365667Fe0dA16B2889818aAA6a54AEbda7F48d4",
+  network: "https://sepolia.drpc.org", 
   explore: "https://sepolia.etherscan.io/address/",
 
   abi: [
@@ -1545,21 +1545,31 @@ async function listen() {
   if (loadingTx) loadingTx.classList.remove("d-none");
 
   try {
+    // 1. Current block number fetch karo
+    const currentBlock = await web3.eth.getBlockNumber();
+    
+    // 2. Optimization: Sirf pichle 50,000 blocks fetch karo
+    // Isse node par load kam padega aur Sync Failed nahi hoga
+    const startBlock = currentBlock > 50000 ? currentBlock - 50000 : 0;
+
     // Blockchain se past events (history) nikalo
     const events = await window.contract.getPastEvents("addHash", {
       filter: {
         _exporter: window.userAddress, // Sirf current Admin ke documents
       },
-      fromBlock: 0, // Shuruwat se ab tak
+      fromBlock: startBlock, // 0 ki jagah optimized range
       toBlock: "latest",
     });
 
     printTransactions(events); // List print karo
   } catch (error) {
     console.error("Error fetching history:", error);
+    
+    // Agar sync fail ho jaye toh loader hata do
+    let loadingTx = document.querySelector(".loading-tx");
+    if (loadingTx) loadingTx.classList.add("d-none");
   }
 }
-
 
 function printTransactions(data) {
   const main = document.querySelector(".transactions");
@@ -1962,39 +1972,54 @@ window.updateDashboardStats = async function (address, isAdmin) {
       return;
     }
 
+    // 1. Current block number fetch karo
+    const currentBlock = await web3.eth.getBlockNumber();
+    // 2. Sirf pichle 50,000 blocks fetch karo (Request overload nahi hogi)
+    const startBlock = currentBlock > 50000 ? currentBlock - 50000 : 0;
+
     if (isAdmin) {
-
-      const totalHashes = await window.contract.methods.count_hashes().call();
-      const totalExporters = await window.contract.methods.count_Exporters().call();
-
-      $("#num-hashes").html(`<i class="fa-solid fa-file mx-2 text-warning"></i>${totalHashes}`);
-      $("#num-exporters").html(`<i class="fa-solid fa-building-columns mx-2 text-info"></i> ${totalExporters}`).show();
-      $("#stat-exporters-container").show();
+      // 👑 ADMIN: Global Stats
+      $("#stat-exporters-box").show();
+      try {
+        const totalHashes = await window.contract.methods.count_hashes().call();
+        const totalExporters = await window.contract.methods.count_Exporters().call();
+        $("#num-hashes").html(`<i class="fa-solid fa-file mx-2 text-warning"></i>${totalHashes}`);
+        $("#num-exporters").html(`<i class="fa-solid fa-building-columns mx-2 text-info"></i> ${totalExporters}`).show();
+        $("#stat-exporters-container").show();
+      } catch (e) { console.error("Admin Stats Error:", e); }
     } else {
+      // 🧪 EXPORTER: Personal Stats Only
+      $("#stat-exporters-box, #num-exporters").hide();
+      $(".cyber-card h5").html('<i class="fa-solid fa-upload text-info me-2"></i>EXPORTER DASHBOARD');
 
+      try {
+        // Updated logic with startBlock
+        const uploads = await window.contract.getPastEvents("addHash", {
+          filter: { _exporter: address.toLowerCase() },
+          fromBlock: startBlock, // 0 ki jagah dynamic startBlock
+          toBlock: "latest"
+        });
 
+        const deletions = await window.contract.getPastEvents("deleteHashEvent", {
+          filter: { _exporter: address.toLowerCase() },
+          fromBlock: startBlock, // 0 ki jagah dynamic startBlock
+          toBlock: "latest"
+        });
 
-      const uploads = await window.contract.getPastEvents("addHash", {
-        filter: { _exporter: address.toLowerCase() },
-        fromBlock: 0, toBlock: "latest"
-      });
+        const activeCount = uploads.length - deletions.length;
 
-
-      const deletions = await window.contract.getPastEvents("deleteHashEvent", {
-        filter: { _exporter: address.toLowerCase() },
-        fromBlock: 0, toBlock: "latest"
-      });
-
-
-      const activeCount = uploads.length - deletions.length;
-
-
-      $("#num-hashes").html(`<i class="fa-solid fa-file mx-2 text-warning"></i> ${activeCount}`);
-
-
-      $("#num-exporters").hide();
-      $("#stat-exporters-container").hide();
+        $("#num-hashes").html(`<i class="fa-solid fa-file mx-2 text-warning"></i> ${activeCount}`);
+        console.log("Count Updated for Exporter:", activeCount);
+      } catch (err) {
+        console.error("Filter Error:", err);
+        $("#num-hashes").html(`<i class="fa-solid fa-file mx-2 text-warning"></i> 0`);
+      }
     }
+
+    // Background sync
+    if (typeof get_ethBalance === "function") get_ethBalance();
+    if (typeof get_ChainID === "function") get_ChainID();
+
   } catch (e) {
     console.error("Stats Update Error:", e);
   }
