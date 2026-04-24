@@ -748,30 +748,41 @@ function show_txInfo() {
 
 
 async function get_ethBalance() {
-    try {
-        // Naye Web3 mein hum await use karte hain, callback nahi
-        const balance = await web3.eth.getBalance(window.userAddress);
-        const ethBalance = web3.utils.fromWei(balance, 'ether').substring(0, 6);
+  try {
+    // 1. Await use karo, callback nahi
+    const balance = await web3.eth.getBalance(window.userAddress);
+    
+    // 2. balance.toString() use karo taaki BigInt error na aaye
+    // 3. .substring() use karo instead of .substr() (modern standard)
+    const formattedBalance = web3.utils.fromWei(balance.toString(), 'ether').toString().substring(0, 6);
 
-        // 1. Navbar/Sidebar balance update
-        if ($("#userBalance").length) {
-            $("#userBalance").html(
-                `<i class='fa-brands fa-gg-circle mx-2 text-danger'></i>${ethBalance}`
-            );
-        }
-
-        // 2. Dashboard main balance update
-        const balanceElement = document.getElementById("balance");
-        if (balanceElement) {
-            balanceElement.innerHTML = ethBalance + " ETH";
-        }
-    } catch (err) {
-        console.error("Balance fetch error:", err);
-        $("#userBalance").html("n/a");
-        if (document.getElementById("balance")) {
-            document.getElementById("balance").innerHTML = "n/a";
-        }
+    // Update Sidebar/Navbar UI
+    if ($("#userBalance").length) {
+      $("#userBalance").html(
+        "<i class='fa-brands fa-gg-circle mx-2 text-danger'></i>" + formattedBalance
+      );
     }
+
+    // Update Main Dashboard UI
+    const balanceElement = document.getElementById("balance");
+    if (balanceElement) {
+      balanceElement.innerHTML = formattedBalance + " ETH";
+    }
+
+  } catch (err) {
+    // Agar error aaye toh "n/a" dikhao
+    console.error("Balance fetch error:", err);
+    if ($("#userBalance").length) $("#userBalance").html("n/a");
+    const balanceElement = document.getElementById("balance");
+    if (balanceElement) balanceElement.innerHTML = "n/a";
+  }
+}
+
+// Ye event listener waisa hi rehne do
+if (window.ethereum) {
+  window.ethereum.on("accountsChanged", function (accounts) {
+    connect();
+  });
 }
 if (window.ethereum) {
   window.ethereum.on("accountsChanged", function (accounts) {
@@ -1114,45 +1125,56 @@ function getTime() {
 
 
 async function get_ChainID() {
-  let a = await web3.eth.getChainId();
-  console.log(a);
-  switch (a) {
-    case 1:
-      window.chainID = "Ethereum Main Network (Mainnet)";
-      break;
-    case 80001:
-      window.chainID = "Polygon Test Network";
-      break;
-    case 137:
-      window.chainID = "Polygon Mainnet";
-      break;
-    case 11155111:
-      window.chainID = "Sepolia";
-      break;
-    case 3:
-      window.chainID = "Ropsten Test Network";
-      break;
-    case 4:
-      window.chainID = "Rinkeby Test Network";
-      break;
-    case 5:
-      window.chainID = "Goerli Test Network";
-      break;
-    case 42:
-      window.chainID = "Kovan Test Network";
-      break;
-    case 1337:
-      window.chainID = "Ganache (1337)";
-      break;
-    default:
-      window.chainID = "Uknnown ChainID";
-      break;
-  }
-  let network = document.getElementById("network");
-  if (network) {
-    document.getElementById(
-      "network"
-    ).innerHTML = `<i class="text-info fa-solid fa-circle-nodes mx-2"></i>${window.chainID}`;
+  try {
+    // Number() mein wrap karne se BigInt error nahi aayega
+    const a = Number(await web3.eth.getChainId());
+    console.log("Current Chain ID:", a);
+
+    switch (a) {
+      case 1:
+        window.chainID = "Ethereum Main Network (Mainnet)";
+        break;
+      case 80001:
+        window.chainID = "Polygon Test Network";
+        break;
+      case 137:
+        window.chainID = "Polygon Mainnet";
+        break;
+      case 11155111:
+        window.chainID = "Sepolia";
+        break;
+      case 3:
+        window.chainID = "Ropsten Test Network";
+        break;
+      case 4:
+        window.chainID = "Rinkeby Test Network";
+        break;
+      case 5:
+        window.chainID = "Goerli Test Network";
+        break;
+      case 42:
+        window.chainID = "Kovan Test Network";
+        break;
+      case 1337:
+        window.chainID = "Ganache (1337)";
+        break;
+      default:
+        window.chainID = "Unknown ChainID (" + a + ")";
+        break;
+    }
+
+    // UI Update logic
+    const networkElement = document.getElementById("network");
+    if (networkElement) {
+      networkElement.innerHTML = `<i class="text-info fa-solid fa-circle-nodes mx-2"></i>${window.chainID}`;
+    }
+
+  } catch (error) {
+    console.error("ChainID fetch error:", error);
+    const networkElement = document.getElementById("network");
+    if (networkElement) {
+      networkElement.innerHTML = `<i class="text-danger fa-solid fa-circle-nodes mx-2"></i>Network Error`;
+    }
   }
 }
 
