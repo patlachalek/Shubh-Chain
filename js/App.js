@@ -662,13 +662,38 @@ function print_verification_info(result, is_verified) {
 
     $("#loader").hide();
 
+    // 1. Transaction status container hamesha show karo taaki UI stable rahe
+    $(".transaction-status").fadeIn().removeClass("d-none");
+
     if (!is_verified) {
+        // ❌ INVALID / NOT FOUND CASE: UI Structure waisa hi rakho, bas data change karo
         if (docElement) docElement.src = "./files/notvalid.svg";
-        $(".transaction-status, #student-info-row").hide();
-        $("#doc-status").html(`<h3 class="text-danger">Invalid Certificate Hash 😕</h3>`);
+        
+        // Info row show rakho, hide mat karo
+        $("#student-info-row").show();
+        $("#college-name, #contract-address, #time-stamps, #blockNumber").show();
+        
+        // Status Heading
+        $("#doc-status").html(`<h3 class="text-danger">Certificate not Verified 😟</h3>`);
+        
+        // 🗑️ FORCE CLEAR ALL DATA and set placeholders
+        if(document.getElementById("verified-student-name")) $("#verified-student-name").text("N/A");
+        $("#file-hash").html(`<i class="fa-solid fa-hashtag text-secondary me-2"></i> ${window.hashedfile || "N/A"}`);
+        $("#college-name").html(`<i class="fa-solid fa-ban text-danger me-2"></i> No records found`);
+        $("#blockNumber").html(`<i class="fa-solid fa-cube text-secondary me-2"></i> Block: N/A`);
+        $("#time-stamps").html(`<i class="fa-solid fa-clock text-secondary me-2"></i> N/A`);
+        $("#contract-address").html(`<i class="fa-solid fa-link text-secondary me-2"></i> Address: N/A`);
+        
+        // PDF Preview frame hatao
+        const oldFrame = document.getElementById("pdf-preview-frame");
+        if (oldFrame) oldFrame.remove();
+        if (docElement) docElement.style.display = "block"; // Image show rakho (notvalid.svg)
+        
+        $("#social-share-box").hide();
+
     } else {
-        // 1. Sections visible karein
-        $(".transaction-status, #student-info-row").fadeIn().removeClass("d-none");
+        // ✅ VALID CASE: Sab show karo
+        $("#student-info-row").fadeIn().removeClass("d-none");
         $("#college-name, #contract-address, #time-stamps, #blockNumber").show();
 
         // 2. IPFS Parsing
@@ -679,14 +704,13 @@ function print_verification_info(result, is_verified) {
             }
         });
 
-        // 3. Mapping with BigInt conversion logic (Console Error Fix)
+        // 3. Mapping data
         const blockNum = result[0].toString();
         const timestampRaw = result[1];
         const studentName = result[3] || "N/A";
         const collegeName = result[2] === ipfsHash ? (result[4] || "PATIL UNIVERSITY") : result[2];
 
-        // 4. DISPLAY HASH FIX (Ye line aapka khali box bharegi)
-        // Console se 'Document Hash' utha kar direct HTML mein inject karna
+        // 4. DISPLAY HASH
         const currentDocHash = window.hashedfile || "0x..."; 
         $("#file-hash").html(`<i class="fa-solid fa-hashtag text-info me-2"></i> ${currentDocHash}`);
 
@@ -707,8 +731,6 @@ function print_verification_info(result, is_verified) {
         // 6. Preview & Link Box
         if (ipfsHash) {
             const fullIpfsUrl = `https://gateway.pinata.cloud/ipfs/${ipfsHash}`;
-            
-            // Link box fill karna
             $("#contract-address").html(`<i class="fa-solid fa-link text-info me-2"></i> <span style="font-size:0.7rem;">${ipfsHash}</span>`);
 
             if (downloadLink) {
@@ -737,6 +759,7 @@ function print_verification_info(result, is_verified) {
         }
     }
 }
+
 
 function hide_txInfo() {
   $(".transaction-status").addClass("d-none");
